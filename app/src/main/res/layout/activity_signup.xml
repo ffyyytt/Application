@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SignupActivity">
+    tools:context=".SignUpActivity">
 
     <TextView
         android:id="@+id/signup_tv_account_info"
@@ -20,7 +20,7 @@
         android:text="@string/phone_number"/>
 
     <EditText
-        android:id="@+id/editTextPhone"
+        android:id="@+id/signup_edt_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -108,12 +108,10 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/signup_btn_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/sign_up" />
     </LinearLayout>
-
-
 </LinearLayout>

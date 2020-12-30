@@ -9,8 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Application">
-        <activity android:name=".SignupActivity"
-            android:label="@string/sign_up"></activity>
+        <activity android:name=".LocationActivity"></activity>
+        <activity android:name=".SignInCompletedActivity"
+            android:label="@string/sign_in"/>
+        <activity android:name=".SignInActivity"
+            android:label="@string/sign_in"/>
+        <activity
+            android:name=".SignUpCompletedActivity"
+            android:label="@string/sign_up" />
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/sign_up" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
