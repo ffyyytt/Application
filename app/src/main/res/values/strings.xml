@@ -2,4 +2,15 @@
     <string name="app_name">Application</string>
     <string name="sign_up">Đăng ký tài khoản</string>
     <string name="sign_in">Đăng nhập</string>
+    <string name="account_info">Thông tin tài khoản</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="hint_phone_number">Bắt đầu với +84</string>
+    <string name="password">Mật khẩu</string>
+    <string name="password_confirm">Xác nhận lại mật khẩu</string>
+    <string name="personal_info">Thông tin cá nhân</string>
+    <string name="hint_name">Nguyễn Văn A</string>
+    <string name="name">Họ tên</string>
+    <string name="dob">Ngày sinh</string>
+    <string name="hint_dob">13/12/2000</string>
+    <string name="cancel">Hủy</string>
 </resources>
