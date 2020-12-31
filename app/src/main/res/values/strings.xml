@@ -26,4 +26,10 @@
     <string name="accept">Đồng ý</string>
     <string name="rated_title">Đánh giá thành công</string>
     <string name="rated_message">Bạn đã đánh giá tài xế thành công!</string>
+    <string name="detail_steps">Chi tiết đường đi</string>
+    <string name="cancel_route">Huỷ chuyến</string>
+    <string name="cancel_route_title">Xác nhận huỷ chuyến</string>
+    <string name="cancel_route_message">Bạn có muốn huỷ chuyến đi hiện tại?</string>
+    <string name="successful_cancel_route_title">Huỷ chuyến thành công</string>
+    <string name="successful_cancel_route_message">Bạn đã huỷ chuyến thành công!</string>
 </resources>

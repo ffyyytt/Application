@@ -24,6 +24,16 @@ public class LocationActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        Button button2 = (Button)findViewById(R.id.bt2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), RouteActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         //end for testing
     }
 }

@@ -14,20 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class RatingActivity extends AppCompatActivity {
 
-    EditText editTextComment;
-    RatingBar ratingBar;
-    Button btNotRate;
-    Button btRate;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
 
-        editTextComment = (EditText)findViewById(R.id.rating_comment);
-        ratingBar = (RatingBar)findViewById(R.id.rating_bar);
-        btNotRate = (Button)findViewById(R.id.rating_bt_not_rate);
-        btRate = (Button)findViewById(R.id.rating_bt_rate);
+        EditText editTextComment = (EditText)findViewById(R.id.rating_comment);
+        RatingBar ratingBar = (RatingBar)findViewById(R.id.rating_bar);
+        Button btNotRate = (Button)findViewById(R.id.rating_bt_not_rate);
+        Button btRate = (Button)findViewById(R.id.rating_bt_rate);
 
         btNotRate.setOnClickListener(new View.OnClickListener() {
             @Override
