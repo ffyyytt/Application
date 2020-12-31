@@ -9,11 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Application">
-        <activity android:name=".LocationActivity"></activity>
-        <activity android:name=".SignInCompletedActivity"
-            android:label="@string/sign_in"/>
-        <activity android:name=".SignInActivity"
-            android:label="@string/sign_in"/>
+        <activity
+            android:name=".RatingActivity"
+            android:label="@string/rating_the_driver" />
+        <activity android:name=".LocationActivity" />
+        <activity
+            android:name=".SignInCompletedActivity"
+            android:label="@string/sign_in" />
+        <activity
+            android:name=".SignInActivity"
+            android:label="@string/sign_in" />
         <activity
             android:name=".SignUpCompletedActivity"
             android:label="@string/sign_up" />

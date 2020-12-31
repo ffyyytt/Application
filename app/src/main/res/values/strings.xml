@@ -17,4 +17,13 @@
     <string name="SignUpCompleted">Đăng ký thành công</string>
     <string name="StartToUse">Bắt đầu sử dụng</string>
     <string name="SignInCompleted">Đăng nhập thành công</string>
+    <string name="rating_the_driver">Đánh giá tài xế</string>
+    <string name="hint_rating_the_driver">Viết bình luận tại đây (tự chọn)...</string>
+    <string name="not_rate">Không đánh giá</string>
+    <string name="rate">Đánh giá</string>
+    <string name="not_rate_yet_title">Chưa đánh giá</string>
+    <string name="not_rate_yet_message">Bạn chưa đánh giá tài xế!</string>
+    <string name="accept">Đồng ý</string>
+    <string name="rated_title">Đánh giá thành công</string>
+    <string name="rated_message">Bạn đã đánh giá tài xế thành công!</string>
 </resources>
