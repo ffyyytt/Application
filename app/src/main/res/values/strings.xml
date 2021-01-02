@@ -32,4 +32,7 @@
     <string name="cancel_route_message">Bạn có muốn huỷ chuyến đi hiện tại?</string>
     <string name="successful_cancel_route_title">Huỷ chuyến thành công</string>
     <string name="successful_cancel_route_message">Bạn đã huỷ chuyến thành công!</string>
+    <string name="title_activity_choose_location">Map</string>
+    <string name="title_activity_choose_options_route">Map</string>
+    <string name="title_activity_match_driver">Map</string>
 </resources>
