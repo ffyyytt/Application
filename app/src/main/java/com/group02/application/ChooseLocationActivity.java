@@ -29,6 +29,8 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
     EditText editTextStartSearch;
     EditText editTextDestinationSearch;
     LatLng[] location;
+    LatLng temp;
+    String nameTemp;
 
 
     @Override
@@ -51,11 +53,36 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        fillClickEditTextAutoComplete(editTextStartSearch);
-        fillClickEditTextAutoComplete(editTextDestinationSearch);
+        if (fillClickEditTextAutoComplete(editTextStartSearch)){
+            location[0] = temp;
+            editTextStartSearch.setText(nameTemp);
+            intentToChooseOptionsRoute();
+        }
+
+        if (fillClickEditTextAutoComplete(editTextDestinationSearch)){
+            location[1] = temp;
+            editTextDestinationSearch.setText(nameTemp);
+            intentToChooseOptionsRoute();
+        }
     }
 
-    private void fillClickEditTextAutoComplete(EditText editText) {
+    private void intentToChooseOptionsRoute(){
+        if (editTextStartSearch.getText().toString()!="" && editTextDestinationSearch.getText().toString()!=""){
+            Intent intent = new Intent(getApplicationContext(),ChooseOptionsRoute.class);
+            intent.putExtra("startDes",location);
+            startActivity(intent);
+        }
+        else{
+            Log.d(TAG, "intentToChooseOptionsRoute: editTextStartSearch"+editTextStartSearch.getText().toString()
+            + " editTextDestinationSearch:"+ editTextDestinationSearch.getText().toString());
+            //temporary
+            Intent intent = new Intent(getApplicationContext(),ChooseOptionsRoute.class);
+            intent.putExtra("startDes",location);
+            startActivity(intent);
+        }
+    }
+
+    private boolean fillClickEditTextAutoComplete(EditText editText) {
         final LatLng[] res = new LatLng[1];
         //init places
         Places.initialize(this, getResources().getString(R.string.google_maps_key));
@@ -72,6 +99,7 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
                 startActivityForResult(intent, 100);
             }
         });
+        return true;
     }
 
     @Override
@@ -80,6 +108,8 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getLatLng().toString());
+                temp = place.getLatLng();
+                nameTemp = place.getName();
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);

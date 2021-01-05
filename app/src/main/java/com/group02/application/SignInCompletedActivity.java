@@ -20,7 +20,7 @@ public class SignInCompletedActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), LocationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ChooseLocationActivity.class);
                 startActivity(intent);
             }
         });

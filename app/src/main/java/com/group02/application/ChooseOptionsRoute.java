@@ -25,6 +25,7 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
 
 
     private GoogleMap mMap;
+    LatLng[] location;
     LinearLayout[] btnVehicle;
     Button btnTypePay;
     Button btnPromotionCode;
@@ -37,6 +38,9 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_options_route);
+
+        Intent intent = getIntent();
+        location = (LatLng[]) intent.getParcelableArrayExtra("startDes");
 
         btnVehicle = new LinearLayout[3];
         btnVehicle[0] = findViewById(R.id.btnBike);
