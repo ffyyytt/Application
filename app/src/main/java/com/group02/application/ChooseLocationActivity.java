@@ -32,6 +32,9 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
     LatLng temp;
     String nameTemp;
 
+    boolean clickStartLocation;
+    boolean clickDestinationLocation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +56,8 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (fillClickEditTextAutoComplete(editTextStartSearch)){
-            location[0] = temp;
-            editTextStartSearch.setText(nameTemp);
-            intentToChooseOptionsRoute();
-        }
-
-        if (fillClickEditTextAutoComplete(editTextDestinationSearch)){
-            location[1] = temp;
-            editTextDestinationSearch.setText(nameTemp);
-            intentToChooseOptionsRoute();
-        }
+        fillClickEditTextAutoComplete(editTextStartSearch);
+        fillClickEditTextAutoComplete(editTextDestinationSearch);
     }
 
     private void intentToChooseOptionsRoute(){
@@ -82,7 +76,7 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
         }
     }
 
-    private boolean fillClickEditTextAutoComplete(EditText editText) {
+    private void fillClickEditTextAutoComplete(EditText editText) {
         final LatLng[] res = new LatLng[1];
         //init places
         Places.initialize(this, getResources().getString(R.string.google_maps_key));
@@ -97,9 +91,20 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
                 Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                         .build(ChooseLocationActivity.this);
                 startActivityForResult(intent, 100);
+                if (temp==null)
+                    Log.d(TAG, "onClick: don't call done Autocomplete");
+                else{
+                    if (editText.equals(editTextStartSearch)){
+                        location[0] = temp;
+                    }
+                    if (editText.equals(editTextDestinationSearch)){
+                        location[1] = temp;
+                    }
+                    editText.setText(nameTemp);
+                    intentToChooseOptionsRoute();
+                }
             }
         });
-        return true;
     }
 
     @Override
