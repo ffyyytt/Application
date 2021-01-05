@@ -25,6 +25,12 @@ public class TypeOfPay extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 typePay = -1;
+
+                Intent intent = new Intent();
+                intent.putExtra("typePay", typePay);
+
+                setResult(Activity.RESULT_OK, intent);
+                finish();
             }
         });
 
@@ -32,13 +38,13 @@ public class TypeOfPay extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 typePay = 1;
+
+                Intent intent = new Intent();
+                intent.putExtra("typePay", typePay);
+
+                setResult(Activity.RESULT_OK, intent);
+                finish();
             }
         });
-
-        Intent intent = new Intent();
-        intent.putExtra("typePay", typePay);
-
-        setResult(Activity.RESULT_OK, intent);
-        finish();
     }
 }

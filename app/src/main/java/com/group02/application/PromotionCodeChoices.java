@@ -18,11 +18,10 @@ public class PromotionCodeChoices extends AppCompatActivity {
 
         setTitle("Promotion Code");
 
-
-        Intent intent = new Intent();
-        intent.putExtra("promotionCode", promotionCode);
-
-        setResult(Activity.RESULT_OK, intent);
-        finish();
+//        Intent intent = new Intent();
+//        intent.putExtra("promotionCode", promotionCode);
+//
+//        setResult(Activity.RESULT_OK, intent);
+//        finish();
     }
 }

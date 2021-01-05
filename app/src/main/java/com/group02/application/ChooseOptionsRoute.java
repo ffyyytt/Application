@@ -25,7 +25,8 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
 
 
     private GoogleMap mMap;
-    LatLng[] location;
+    LatLng startLocation;
+    LatLng destinationLocation;
     LinearLayout[] btnVehicle;
     Button btnTypePay;
     Button btnPromotionCode;
@@ -39,8 +40,11 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_options_route);
 
+        setTitle("Choose Options Route");
+
         Intent intent = getIntent();
-        location = (LatLng[]) intent.getParcelableArrayExtra("startDes");
+        startLocation = intent.getParcelableExtra("startLocation");
+        destinationLocation = intent.getParcelableExtra("destinationLocation");
 
         btnVehicle = new LinearLayout[3];
         btnVehicle[0] = findViewById(R.id.btnBike);
@@ -111,7 +115,12 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
         btnVehicle[pos].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnVehicle[pos].setBackgroundColor(getResources().getColor(R.color.quantum_yellow200));
+                for (int i=0;i<3;i++){
+                    if (i==pos)
+                        btnVehicle[i].setBackgroundColor(getResources().getColor(R.color.quantum_yellow200));
+                    else
+                        btnVehicle[i].setBackgroundColor(getResources().getColor(R.color.white));
+                }
                 curVehicle = pos;
 
             }

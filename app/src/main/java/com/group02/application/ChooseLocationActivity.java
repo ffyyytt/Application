@@ -29,8 +29,6 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
     EditText editTextStartSearch;
     EditText editTextDestinationSearch;
     LatLng[] location;
-    LatLng temp;
-    String nameTemp;
 
     boolean clickStartLocation;
     boolean clickDestinationLocation;
@@ -56,55 +54,52 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        fillClickEditTextAutoComplete(editTextStartSearch);
-        fillClickEditTextAutoComplete(editTextDestinationSearch);
-    }
+        setTitle("Choose Location");
 
-    private void intentToChooseOptionsRoute(){
-        if (editTextStartSearch.getText().toString()!="" && editTextDestinationSearch.getText().toString()!=""){
-            Intent intent = new Intent(getApplicationContext(),ChooseOptionsRoute.class);
-            intent.putExtra("startDes",location);
-            startActivity(intent);
-        }
-        else{
-            Log.d(TAG, "intentToChooseOptionsRoute: editTextStartSearch"+editTextStartSearch.getText().toString()
-            + " editTextDestinationSearch:"+ editTextDestinationSearch.getText().toString());
-            //temporary
-            Intent intent = new Intent(getApplicationContext(),ChooseOptionsRoute.class);
-            intent.putExtra("startDes",location);
-            startActivity(intent);
-        }
-    }
-
-    private void fillClickEditTextAutoComplete(EditText editText) {
-        final LatLng[] res = new LatLng[1];
-        //init places
         Places.initialize(this, getResources().getString(R.string.google_maps_key));
         //set editText non focusable
-        editText.setFocusable(false);
-        editText.setOnClickListener(new View.OnClickListener() {
+        editTextStartSearch.setFocusable(false);
+        editTextDestinationSearch.setFocusable(false);
+
+        editTextStartSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
 
                 // Start the autocomplete intent.
                 Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                         .build(ChooseLocationActivity.this);
                 startActivityForResult(intent, 100);
-                if (temp==null)
-                    Log.d(TAG, "onClick: don't call done Autocomplete");
-                else{
-                    if (editText.equals(editTextStartSearch)){
-                        location[0] = temp;
-                    }
-                    if (editText.equals(editTextDestinationSearch)){
-                        location[1] = temp;
-                    }
-                    editText.setText(nameTemp);
-                    intentToChooseOptionsRoute();
-                }
             }
         });
+        editTextDestinationSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
+
+                // Start the autocomplete intent.
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                        .build(ChooseLocationActivity.this);
+                startActivityForResult(intent, 200);
+            }
+        });
+    }
+
+    private void intentToChooseOptionsRoute(){
+        if (location[0]!=null && location[1]!=null){
+            Intent intent = new Intent(getApplicationContext(),ChooseOptionsRoute.class);
+            intent.putExtra("startLocation",location[0]);
+            intent.putExtra("destinationLocation",location[1]);
+            startActivity(intent);
+        }
+//        else{
+//            Log.d(TAG, "intentToChooseOptionsRoute: editTextStartSearch"+editTextStartSearch.getText().toString()
+//            + " editTextDestinationSearch:"+ editTextDestinationSearch.getText().toString());
+//            //temporary
+//            Intent intent = new Intent(getApplicationContext(),ChooseOptionsRoute.class);
+//            intent.putExtra("startDes",location);
+//            startActivity(intent);
+//        }
     }
 
     @Override
@@ -113,8 +108,25 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getLatLng().toString());
-                temp = place.getLatLng();
-                nameTemp = place.getName();
+                location[0] = place.getLatLng();
+                editTextStartSearch.setText(place.getName());
+                intentToChooseOptionsRoute();
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i(TAG, status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+            return;
+        }
+        if (requestCode == 200) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getLatLng().toString());
+                location[1] = place.getLatLng();
+                editTextDestinationSearch.setText(place.getName());
+                intentToChooseOptionsRoute();
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);

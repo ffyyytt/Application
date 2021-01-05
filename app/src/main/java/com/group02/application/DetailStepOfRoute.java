@@ -12,6 +12,6 @@ public class DetailStepOfRoute extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_step_of_route);
 
-        Intent intent = getIntent();
+        setTitle("Detail Route");
     }
 }
