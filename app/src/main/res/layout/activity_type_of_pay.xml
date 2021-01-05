@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TypeOfPay"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnCreditCard"
+        android:text="Credit Card"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:backgroundTint="@color/quantum_brown50"/>
+
+    <Button
+        android:id="@+id/btnCash"
+        android:text="Cash"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:backgroundTint="@color/quantum_brown50"/>
+
+
+
+</LinearLayout>
