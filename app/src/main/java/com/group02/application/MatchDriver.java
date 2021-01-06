@@ -1,7 +1,9 @@
 package com.group02.application;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -88,9 +90,52 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback 
         cancelRoute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MatchDriver.this,ChooseOptionsRoute.class);
-                startActivity(intent);
+                addCancelRouteDialog();
             }
         });
+    }
+
+    private void addCancelRouteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.cancel_route_title));
+        builder.setMessage(getResources().getString(R.string.cancel_route_message));
+        builder.setCancelable(true);
+        builder.setPositiveButton(
+                getResources().getString(R.string.accept),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        addSuccessfulCancelRouteDialog();
+                    }
+                });
+        builder.setNegativeButton(
+                getResources().getString(R.string.cancel),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void addSuccessfulCancelRouteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.successful_cancel_route_title));
+        builder.setMessage(getResources().getString(R.string.successful_cancel_route_message));
+        builder.setCancelable(false);
+        builder.setPositiveButton(
+                getResources().getString(R.string.accept),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(getApplicationContext(), ChooseLocationActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
