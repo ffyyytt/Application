@@ -83,7 +83,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback 
         detailSteps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //something to do
+                Intent intent = new Intent(getApplicationContext(),DetailStepOfRoute.class);
+                startActivity(intent);
             }
         });
 
@@ -91,6 +92,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback 
             @Override
             public void onClick(View view) {
                 addCancelRouteDialog();
+                Intent intent = new Intent(getApplicationContext(),ChooseOptionsRoute.class);
+                startActivity(intent);
             }
         });
     }
