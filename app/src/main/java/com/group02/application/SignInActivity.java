@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -33,7 +34,7 @@ public class SignInActivity extends AppCompatActivity {
     String str_phone, str_password;
 
     String server ="http://192.168.5.10:5555";
-    String result;
+    String result = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class SignInActivity extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        result = "True";
+
                     }
                 }) {
                     @Override
@@ -91,16 +92,17 @@ public class SignInActivity extends AppCompatActivity {
 
                     }
                     public void onFinish() {
-                        if  (result.equals("True"))
-                        {
-                            Intent intent = new Intent(getApplicationContext(), SignInCompletedActivity.class);
-                            startActivity(intent);
-                        }
-                        else
+                        Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+                        if  (result.equals("False"))
                         {
                             edt_password.setText("");
                             edt_password.setHint(getResources().getString(R.string.password_not_match));
                             edt_password.setBackgroundColor(Color.RED);
+                        }
+                        else
+                        {
+                            Intent intent = new Intent(getApplicationContext(), SignInCompletedActivity.class);
+                            startActivity(intent);
                         }
                     }
                 }.start();
