@@ -92,8 +92,6 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback 
             @Override
             public void onClick(View view) {
                 addCancelRouteDialog();
-                Intent intent = new Intent(getApplicationContext(),ChooseOptionsRoute.class);
-                startActivity(intent);
             }
         });
     }
