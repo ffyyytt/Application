@@ -133,6 +133,7 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
         if (requestCode == REQUEST_CODE_INTENT_PAY) {
             if (resultCode == Activity.RESULT_OK) {
                 typeOfPayValue = data.getIntExtra("typePay", 0);
+                btnTypePay.setText("Cash");
             } else {
                 // DetailActivity không thành công, không có data trả về.
             }
@@ -141,6 +142,7 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
         if (requestCode == REQUEST_CODE_INTENT_PROMOTIONCODE) {
             if (resultCode == Activity.RESULT_OK) {
                 promotionCodeValue = data.getIntExtra("promotionCode", 0);
+                btnTypePay.setText("Credit Card");
             } else {
                 // DetailActivity không thành công, không có data trả về.
             }
