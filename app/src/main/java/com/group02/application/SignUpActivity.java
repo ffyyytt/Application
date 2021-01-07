@@ -1,7 +1,5 @@
 package com.group02.application;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +9,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -32,32 +32,32 @@ public class SignUpActivity extends AppCompatActivity {
     private Button btn_cancel;
     private EditText edt_phone, edt_password, edt_password_con, edt_name, edt_email;
     RadioGroup radioGroup;
-    String str_phone="", str_password="", str_password_con="", str_name="", str_email="", str_gender="Nam";
+    String str_phone = "", str_password = "", str_password_con = "", str_name = "", str_email = "", str_gender = "Nam";
 
-    String server ="http://192.168.100.7:8000/api/passenger/register/";
-    String result="";
+    String server = new SERVER().get_server() + "api/passenger/register/";
+    String result = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        btn_signup = (Button) findViewById(R.id.signup_btn_signup);
-        btn_cancel = (Button) findViewById(R.id.signup_btn_cancel);
+        btn_signup = findViewById(R.id.signup_btn_signup);
+        btn_cancel = findViewById(R.id.signup_btn_cancel);
 
-        edt_phone = (EditText) findViewById(R.id.signup_edt_phone);
-        edt_password = (EditText) findViewById(R.id.signup_edt_password);
-        edt_password_con = (EditText) findViewById(R.id.signup_edt_password_confirm);
-        edt_name = (EditText) findViewById(R.id.signup_edt_name);
-        edt_email = (EditText) findViewById(R.id.signup_edt_email);
+        edt_phone = findViewById(R.id.signup_edt_phone);
+        edt_password = findViewById(R.id.signup_edt_password);
+        edt_password_con = findViewById(R.id.signup_edt_password_confirm);
+        edt_name = findViewById(R.id.signup_edt_name);
+        edt_email = findViewById(R.id.signup_edt_email);
 
-        radioGroup = (RadioGroup)findViewById(R.id.signup_radio);
+        radioGroup = findViewById(R.id.signup_radio);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton radioButton = (RadioButton) group.findViewById(checkedId);
+                RadioButton radioButton = group.findViewById(checkedId);
                 str_gender = radioButton.getText().toString();
             }
         });
