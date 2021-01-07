@@ -33,7 +33,7 @@ public class SignInActivity extends AppCompatActivity {
     private EditText edt_phone, edt_password;
     String str_phone, str_password;
 
-    String server = new SERVER().get_server() + "api/passenger/login/";
+    String server = SERVER.get_server() + "api/passenger/login/";
     String result = "";
 
     @Override
