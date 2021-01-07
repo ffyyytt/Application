@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/account_info"
-        android:textSize="25sp"/>
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/textView"
@@ -25,7 +25,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="phone"
-        android:hint="@string/hint_phone_number"/>
+        android:hint="@string/hint_phone_number"
+        android:textSize="8sp"/>
 
     <TextView
         android:id="@+id/signup_tv_password"
@@ -39,7 +40,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
-        android:hint="@string/password"/>
+        android:hint="@string/password"
+        android:textSize="8sp"/>
 
     <TextView
         android:id="@+id/signup_tv_password_confirm"
@@ -53,20 +55,22 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
-        android:hint="@string/password_confirm"/>
+        android:hint="@string/password_confirm"
+        android:textSize="8sp"/>
 
     <TextView
         android:id="@+id/signup_tv_personal_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/personal_info"
-        android:textSize="25sp"/>
+        android:textSize="8sp"/>
 
     <TextView
         android:id="@+id/signup_tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/name" />
+        android:text="@string/name"
+        />
 
     <EditText
         android:id="@+id/signup_edt_name"
@@ -74,21 +78,42 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="@string/hint_name" />
+        android:hint="@string/hint_name"
+        android:textSize="8sp"/>
 
     <TextView
-        android:id="@+id/signup_tv_dob"
+        android:id="@+id/signup_tv_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/dob" />
+        android:text="@string/email" />
 
     <EditText
-        android:id="@+id/signup_edt_dob"
+        android:id="@+id/signup_edt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="date"
+        android:inputType="textEmailAddress"
         android:hint="@string/hint_dob"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/signup_radio">
+
+        <RadioButton
+            android:id="@+id/signup_radioButton_male"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/male"
+            android:textSize="8sp"/>
+
+        <RadioButton
+            android:id="@+id/signup_radioButton_female"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/female"
+            android:textSize="8sp"/>
+    </RadioGroup>
 
     <LinearLayout
         android:layout_width="match_parent"
