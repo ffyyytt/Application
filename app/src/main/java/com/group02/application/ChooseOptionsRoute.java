@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.directions.route.AbstractRouting;
@@ -36,9 +37,9 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
     int REQUEST_CODE_INTENT_PAY = 10;
     int REQUEST_CODE_INTENT_PROMOTIONCODE = 20;
 
-    int typeOfPayValue;
-    int promotionCodeValue;
-    double distanceRoute;
+    int typeOfPayValue = 0;
+    double promotionCodeValue = 0;
+    double distanceRoute = 0;
 
 
     private GoogleMap mMap;
@@ -49,14 +50,18 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
 
 
     LinearLayout[] btnVehicle;
+    TextView[] textViewsRealPay;
+    TextView[] textViewsOldPay;
     Button btnTypePay;
     Button btnPromotionCode;
     Button btnHelp;
     Button btnDetailStep;
     Button btnBook;
+    TextView textDistance;
+    TextView textDuration;
 
     int curVehicle = 0;
-    int priceRoute=0;//calculate
+    int[] priceRoute;//calculate
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,16 +80,44 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
         btnVehicle[0] = findViewById(R.id.btnBike);
         btnVehicle[1] = findViewById(R.id.btnCar4);
         btnVehicle[2] = findViewById(R.id.btnCar7);
+
+        textViewsRealPay = new TextView[3];
+        textViewsRealPay[0] = findViewById(R.id.textbtnBikeRealpay);
+        textViewsRealPay[1] = findViewById(R.id.textbtnCar4Realpay);
+        textViewsRealPay[2] = findViewById(R.id.textbtnCar7Realpay);
+
+        textViewsOldPay = new TextView[3];
+        textViewsOldPay[0] = findViewById(R.id.textbtnBikeOldpay);
+        textViewsOldPay[1] = findViewById(R.id.textbtnCar4Oldpay);
+        textViewsOldPay[2] = findViewById(R.id.textbtnCar7Oldpay);
+
         btnTypePay = findViewById(R.id.btnTypePay);
         btnPromotionCode = findViewById(R.id.btnPromotionCode);
         btnHelp = findViewById(R.id.btnHelp);
         btnDetailStep = findViewById(R.id.btnDetailSteps);
         btnBook = findViewById(R.id.btnBookNow);
+        textDistance = findViewById(R.id.textDistance);
+        textDuration = findViewById(R.id.textDuration);
+
+        priceRoute = new int[3];
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        for (int i=0;i<3;i++){
+            priceRoute[i] = calculatePriceRoute(distanceRoute,promotionCodeValue,i);
+            textViewsRealPay[i].setText(""+priceRoute[i]+"k");
+            if (promotionCodeValue!=0){
+                textViewsOldPay[i].setText(""+calculatePriceRoute(distanceRoute,0,i)+"k");
+            }
+            else textViewsOldPay[i].setText("");
+        }
     }
 
     @Override
@@ -132,7 +165,7 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
             public void onClick(View view) {
                 Intent intent = new Intent(ChooseOptionsRoute.this, MatchDriver.class);
                 intent.putExtra("vehicle", curVehicle);
-                intent.putExtra("priceRoute", priceRoute);
+                intent.putExtra("priceRoute", priceRoute[curVehicle]);
                 intent.putExtra("startLocation",startLocation);
                 intent.putExtra("destinationLocation",destinationLocation);
                 intent.putExtra("startLocationName",startLocationName);
@@ -140,6 +173,7 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
                 startActivity(intent);
             }
         });
+
 
         Routing routing = new Routing.Builder()
                 .travelMode(AbstractRouting.TravelMode.DRIVING)
@@ -174,7 +208,9 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
         if (requestCode == REQUEST_CODE_INTENT_PAY) {
             if (resultCode == Activity.RESULT_OK) {
                 typeOfPayValue = data.getIntExtra("typePay", 0);
-                btnTypePay.setText("Cash");
+                if (typeOfPayValue == 1)
+                    btnTypePay.setText("Credit Card");
+                else btnTypePay.setText("Cash");
             } else {
                 // DetailActivity không thành công, không có data trả về.
             }
@@ -182,8 +218,17 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
 
         if (requestCode == REQUEST_CODE_INTENT_PROMOTIONCODE) {
             if (resultCode == Activity.RESULT_OK) {
-                promotionCodeValue = data.getIntExtra("promotionCode", 0);
-                btnTypePay.setText("Credit Card");
+                promotionCodeValue = data.getDoubleExtra("promotionCode", 0);
+                Log.d(TAG, "onActivityResult: return promotionCode: "+promotionCodeValue);
+                btnPromotionCode.setText("-"+promotionCodeValue*100+"%");
+                for (int i=0;i<3;i++){
+                    priceRoute[i] = calculatePriceRoute(distanceRoute,promotionCodeValue,i);
+                    textViewsRealPay[i].setText(""+priceRoute[i]+"k");
+                    if (promotionCodeValue!=0){
+                        textViewsOldPay[i].setText(""+calculatePriceRoute(distanceRoute,0,i)+"k");
+                    }
+                    else textViewsOldPay[i].setText("");
+                }
             } else {
                 // DetailActivity không thành công, không có data trả về.
             }
@@ -214,8 +259,14 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
     public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) {
         mMap.clear();
 
-        distanceRoute = route.get(shortestRouteIndex).getDistanceValue();
+        distanceRoute = route.get(shortestRouteIndex).getDistanceValue()*1.0 / 1000;
+        textDistance.setText(textDistance.getText().toString()+distanceRoute +"km");
+        textDuration.setText(textDuration.getText().toString()+route.get(shortestRouteIndex).getDurationText());
         showRoute(route.get(shortestRouteIndex),mMap);
+        for (int i=0;i<3;i++){
+            priceRoute[i] = calculatePriceRoute(distanceRoute,promotionCodeValue,i);
+            textViewsRealPay[i].setText(""+priceRoute[i]+"k");
+        }
     }
 
     public void showRoute(Route r, GoogleMap mMap){
@@ -232,4 +283,17 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
                 .title(destinationLocationName)).showInfoWindow();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLocation,15));
     }
+
+    private int calculatePriceRoute(double distance, double usePromotionCode, int typeVehicle){//0 if no use promotionCode
+        int priceVehiclePerKM;
+        if (typeVehicle==0)
+            priceVehiclePerKM = 9;
+        else if (typeVehicle==1)
+            priceVehiclePerKM = 12;
+        else
+            priceVehiclePerKM = 15;
+
+        return (int) (distance*priceVehiclePerKM*(1-usePromotionCode));
+    }
+
 }

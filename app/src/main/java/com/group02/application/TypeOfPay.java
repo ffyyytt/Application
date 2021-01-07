@@ -16,7 +16,7 @@ public class TypeOfPay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type_of_pay);
 
-        setTitle("Payment");
+        setTitle(R.string.title_type_of_pay);
 
         Button btnCreditCard = findViewById(R.id.btnCreditCard);
         Button btnCash = findViewById(R.id.btnCash);

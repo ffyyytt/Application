@@ -49,6 +49,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
     TextView textViewPrice;
     TextView textViewStartLocation;
     TextView textViewDestinationLocation;
+    TextView textDistance;
+    TextView textDuration;
     Button detailSteps;
     Button cancelRoute;
 
@@ -65,6 +67,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         textViewPrice = findViewById(R.id.vehicle);
         textViewStartLocation = findViewById(R.id.startLocation);
         textViewDestinationLocation = findViewById(R.id.destinationLocation);
+        textDistance = findViewById(R.id.textDistance);
+        textDuration = findViewById(R.id.textDuration);
         detailSteps = findViewById(R.id.btnDetailSteps);
         cancelRoute = findViewById(R.id.btnCancel);
 
@@ -80,7 +84,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         //ex: id driver
 
         vehicle = intent.getIntExtra("vehicle", 0);
-        price = intent.getIntExtra("price", 0);
+        price = intent.getIntExtra("priceRoute", 0);
         startLocation = intent.getParcelableExtra("startLocation");
         destinationLocation = intent.getParcelableExtra("destinationLocation");
         startLocationName = intent.getStringExtra("startLocationName");
@@ -94,19 +98,15 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         //set image for driver from idDriver
         //set info for driver from idDriver
         if (vehicle==1) {
-            textViewPrice.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_baseline_four_seat_24),
-                    null,null,null);
-            textViewPrice.setText(price+".000 vnd\n"+"Car 4-seat");
+            textViewPrice.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_baseline_four_seat_24, 0, 0);
+            textViewPrice.setText(price+"k\n"+"Car 4-seat");
         }
         else if (vehicle==2) {
-            textViewPrice.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_baseline_seven_seat_24),
-                    null,null,null);
-            textViewPrice.setText(price+".000 vnd\n"+"Car 7-seat");
+            textViewPrice.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_baseline_seven_seat_24, 0, 0);
+            textViewPrice.setText(price+"k\n"+"Car 7-seat");
         }
         else{
-            textViewPrice.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_baseline_motobike_24),
-                    null,null,null);
-            textViewPrice.setText(price+".000 vnd\n"+"Bike");
+            textViewPrice.setText(price+"k\n"+"Bike");
         }
         textViewStartLocation.setText(startLocationName);
         textViewDestinationLocation.setText(destinationLocationName);
@@ -206,6 +206,9 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         mMap.addMarker(new MarkerOptions().position(destinationLocation)
                 .title(destinationLocationName)).showInfoWindow();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLocation,15));
+
+        textDistance.setText(textDistance.getText().toString()+arrayList.get(i).getDistanceValue()*1.0/1000+"km");
+        textDuration.setText(textDuration.getText().toString() + arrayList.get(i).getDurationText());
     }
 
     @Override
