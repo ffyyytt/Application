@@ -34,7 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
     RadioGroup radioGroup;
     String str_phone="", str_password="", str_password_con="", str_name="", str_email="", str_gender="Nam";
 
-    String server ="http://192.168.137.1:8000/api/passenger/register/";
+    String server ="http://192.168.100.7:8000/api/passenger/register/";
     String result="";
 
     @Override

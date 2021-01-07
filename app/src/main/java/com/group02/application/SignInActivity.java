@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,7 +34,7 @@ public class SignInActivity extends AppCompatActivity {
     private EditText edt_phone, edt_password;
     String str_phone, str_password;
 
-    String server ="http://192.168.137.1:8000/api/passenger/login/";
+    String server ="http://192.168.100.7:8000/api/passenger/login/";
     String result = "";
 
     @Override
@@ -68,6 +69,7 @@ public class SignInActivity extends AppCompatActivity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                Log.d("SIGNINDEBUG", "onResponse: " + response.toString());
                                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.SignInCompleted), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), SignInCompletedActivity.class);
                                 startActivity(intent);
@@ -75,6 +77,7 @@ public class SignInActivity extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Log.d("SIGNINDEBUG", error.getMessage());
                         edt_password.setText("");
                         edt_password.setHint(getResources().getString(R.string.password_not_match));
                         edt_password.setBackgroundColor(Color.RED);
