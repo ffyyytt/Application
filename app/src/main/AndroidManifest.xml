@@ -7,8 +7,10 @@
          location permissions for the "MyLocation" functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
 
     <application
         android:allowBackup="true"
@@ -18,8 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Application"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".DetailStepOfRoute"></activity>
+        <activity android:name=".DetailPromotionCode"/>
+        <activity android:name=".DetailStepOfRoute" />
         <activity android:name=".HelpActivity" />
         <activity android:name=".PromotionCodeChoices" />
         <activity android:name=".TypeOfPay" />
@@ -45,6 +47,7 @@
             android:name=".ChooseLocationActivity"
             android:label="@string/title_activity_choose_location" />
         <activity android:name=".RouteActivity" />
+
         <activity
             android:name=".RatingActivity"
             android:label="@string/rating_the_driver" />

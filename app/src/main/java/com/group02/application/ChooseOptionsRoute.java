@@ -13,6 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.directions.route.AbstractRouting;
 import com.directions.route.Route;
 import com.directions.route.RouteException;
@@ -41,13 +47,12 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
     double promotionCodeValue = 0;
     double distanceRoute = 0;
 
-
     private GoogleMap mMap;
     LatLng startLocation;
     LatLng destinationLocation;
     String startLocationName;
     String destinationLocationName;
-
+    String phone_no;
 
     LinearLayout[] btnVehicle;
     TextView[] textViewsRealPay;
@@ -75,6 +80,7 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
         destinationLocation = intent.getParcelableExtra("destinationLocation");
         startLocationName = intent.getStringExtra("startLocationName");
         destinationLocationName = intent.getStringExtra("destinationLocationName");
+        phone_no = intent.getStringExtra("phone_no");
 
         btnVehicle = new LinearLayout[3];
         btnVehicle[0] = findViewById(R.id.btnBike);
@@ -140,6 +146,7 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ChooseOptionsRoute.this,PromotionCodeChoices.class);
+                intent.putExtra("phone_no", phone_no);
                 startActivityForResult(intent,REQUEST_CODE_INTENT_PROMOTIONCODE);
             }
         });
@@ -218,9 +225,10 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
 
         if (requestCode == REQUEST_CODE_INTENT_PROMOTIONCODE) {
             if (resultCode == Activity.RESULT_OK) {
-                promotionCodeValue = data.getDoubleExtra("promotionCode", 0);
+                String promotionCode = data.getStringExtra("promotionCode");
+                promotionCodeValue = 0.3;
                 Log.d(TAG, "onActivityResult: return promotionCode: "+promotionCodeValue);
-                btnPromotionCode.setText("-"+promotionCodeValue*100+"%");
+                btnPromotionCode.setText(promotionCode+"-"+promotionCodeValue*100+"%");
                 for (int i=0;i<3;i++){
                     priceRoute[i] = calculatePriceRoute(distanceRoute,promotionCodeValue,i);
                     textViewsRealPay[i].setText(""+priceRoute[i]+"k");
