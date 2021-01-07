@@ -194,7 +194,7 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
                     if (i==pos)
                         btnVehicle[i].setBackgroundColor(getResources().getColor(R.color.quantum_yellow200));
                     else
-                        btnVehicle[i].setBackgroundColor(getResources().getColor(R.color.white));
+                        btnVehicle[i].setBackgroundResource(R.drawable.common_google_signin_btn_icon_light_normal_background);
                 }
                 curVehicle = pos;
 
