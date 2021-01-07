@@ -4,14 +4,14 @@
     <string name="sign_in">Đăng nhập</string>
     <string name="account_info">Thông tin tài khoản</string>
     <string name="phone_number">Số điện thoại</string>
-    <string name="hint_phone_number">Bắt đầu với +84</string>
+    <string name="hint_phone_number">Nhập số điện thoại</string>
     <string name="password">Mật khẩu</string>
     <string name="password_confirm">Xác nhận lại mật khẩu</string>
     <string name="personal_info">Thông tin cá nhân</string>
     <string name="hint_name">Nguyễn Văn A</string>
     <string name="name">Họ tên</string>
-    <string name="dob">Ngày sinh</string>
-    <string name="hint_dob">13/12/2000</string>
+    <string name="email">Email</string>
+    <string name="hint_dob">abc@company.com</string>
     <string name="cancel">Hủy</string>
     <string name="password_not_match">Mật khẩu không khớp</string>
     <string name="SignUpCompleted">Đăng ký thành công</string>
@@ -37,6 +37,9 @@
     <string name="title_activity_match_driver">Match Driver</string>
     <string name="title_type_of_pay">Payment</string>
     <string name="title_promotion_code">Promotion Code</string>
+    <string name="male">Nam</string>
+    <string name="female">Nữ</string>
+    <string name="SALT">SALT</string>
 
     <string-array name="list_view">
         <item>0.1</item>
