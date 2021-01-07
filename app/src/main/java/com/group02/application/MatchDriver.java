@@ -1,10 +1,14 @@
 package com.group02.application;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewDebug;
@@ -13,20 +17,33 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.directions.route.AbstractRouting;
+import com.directions.route.Route;
+import com.directions.route.RouteException;
+import com.directions.route.Routing;
+import com.directions.route.RoutingListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
-public class MatchDriver extends FragmentActivity implements OnMapReadyCallback {
+import java.util.ArrayList;
+
+public class MatchDriver extends FragmentActivity implements OnMapReadyCallback, RoutingListener {
 
     private GoogleMap mMap;
     int idDriver;
     int price;
-    String startLocation;
-    String destinationLocation;
+    int vehicle;
+    String startLocationName;
+    String destinationLocationName;
+    LatLng startLocation;
+    LatLng destinationLocation;
+
     ImageView imgDriver;
     TextView infoDriver;
     TextView textViewPrice;
@@ -61,24 +78,39 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback 
         Intent intent = getIntent();
         //set value for map,price, location, driver
         //ex: id driver
-        idDriver = intent.getIntExtra("id_driver",0);
-        price = intent.getIntExtra("price",0);
-        startLocation = intent.getStringExtra("start");
-        destinationLocation = intent.getStringExtra("destination");
 
+        vehicle = intent.getIntExtra("vehicle", 0);
+        price = intent.getIntExtra("price", 0);
+        startLocation = intent.getParcelableExtra("startLocation");
+        destinationLocation = intent.getParcelableExtra("destinationLocation");
+        startLocationName = intent.getStringExtra("startLocationName");
+        destinationLocationName = intent.getStringExtra("destinationLocationName");
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        //setup map fragment
-
         //set image for driver from idDriver
         //set info for driver from idDriver
-        textViewPrice.setText(price+"\n"+textViewPrice.getText());
-        textViewStartLocation.setText(startLocation);
-        textViewDestinationLocation.setText(destinationLocation);
+        if (vehicle==1) {
+            textViewPrice.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_baseline_four_seat_24),
+                    null,null,null);
+            textViewPrice.setText(price+".000 vnd\n"+"Car 4-seat");
+        }
+        else if (vehicle==2) {
+            textViewPrice.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_baseline_seven_seat_24),
+                    null,null,null);
+            textViewPrice.setText(price+".000 vnd\n"+"Car 7-seat");
+        }
+        else{
+            textViewPrice.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_baseline_motobike_24),
+                    null,null,null);
+            textViewPrice.setText(price+".000 vnd\n"+"Bike");
+        }
+        textViewStartLocation.setText(startLocationName);
+        textViewDestinationLocation.setText(destinationLocationName);
+
 
         detailSteps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +126,16 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback 
                 addCancelRouteDialog();
             }
         });
+
+        Routing routing = new Routing.Builder()
+                .travelMode(AbstractRouting.TravelMode.DRIVING)
+                .withListener(this)
+                .alternativeRoutes(false)
+                .waypoints(startLocation,destinationLocation)
+                .key(getResources().getString(R.string.google_maps_key))
+                .build();
+
+        routing.execute();
     }
 
     private void addCancelRouteDialog() {
@@ -138,5 +180,36 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback 
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void onRoutingFailure(RouteException e) {
+
+    }
+
+    @Override
+    public void onRoutingStart() {
+
+    }
+
+    @Override
+    public void onRoutingSuccess(ArrayList<Route> arrayList, int i) {
+        PolylineOptions polyOptions = new PolylineOptions();
+        polyOptions.color(Color.argb(255,0,0,255));
+        polyOptions.width(7);
+        polyOptions.addAll(arrayList.get(i).getPoints());
+        mMap.addPolyline(polyOptions);
+
+        mMap.addMarker(new MarkerOptions().position(startLocation)
+                .title(startLocationName)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))).showInfoWindow();
+        mMap.addMarker(new MarkerOptions().position(destinationLocation)
+                .title(destinationLocationName)).showInfoWindow();
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLocation,15));
+    }
+
+    @Override
+    public void onRoutingCancelled() {
+
     }
 }

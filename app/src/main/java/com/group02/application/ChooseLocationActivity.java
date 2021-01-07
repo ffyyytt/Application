@@ -90,16 +90,10 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
             Intent intent = new Intent(getApplicationContext(),ChooseOptionsRoute.class);
             intent.putExtra("startLocation",location[0]);
             intent.putExtra("destinationLocation",location[1]);
+            intent.putExtra("startLocationName",editTextStartSearch.getText().toString());
+            intent.putExtra("destinationLocationName",editTextDestinationSearch.getText().toString());
             startActivity(intent);
         }
-//        else{
-//            Log.d(TAG, "intentToChooseOptionsRoute: editTextStartSearch"+editTextStartSearch.getText().toString()
-//            + " editTextDestinationSearch:"+ editTextDestinationSearch.getText().toString());
-//            //temporary
-//            Intent intent = new Intent(getApplicationContext(),ChooseOptionsRoute.class);
-//            intent.putExtra("startDes",location);
-//            startActivity(intent);
-//        }
     }
 
     @Override
