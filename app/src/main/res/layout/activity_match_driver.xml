@@ -19,8 +19,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3.45"
-        android:orientation="horizontal">
+        android:layout_weight="3.4"
+        android:orientation="horizontal"
+        android:background="@drawable/common_google_signin_btn_icon_light_normal_background">
 
         <TextView
             android:id="@+id/textDistance"
@@ -53,7 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@drawable/common_google_signin_btn_icon_light_normal_background">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -85,7 +87,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:background="@drawable/common_google_signin_btn_icon_light_normal_background">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
