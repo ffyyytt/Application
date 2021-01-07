@@ -112,7 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
                             params.put("name", str_name);
                             params.put("phone_no", str_phone);
                             params.put("email", str_email);
-                            params.put("password", str_password);
+                            params.put("password", edt_password.getText().toString());
                             params.put("gender", str_gender);
                             params.put("point", "0");
                             return params;
