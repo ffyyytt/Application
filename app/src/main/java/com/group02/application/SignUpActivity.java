@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -27,11 +30,12 @@ public class SignUpActivity extends AppCompatActivity {
 
     private Button btn_signup;
     private Button btn_cancel;
-    private EditText edt_phone, edt_password, edt_password_con, edt_name, edt_dob;
-    String str_phone, str_password, str_password_con, str_name, str_dob;
+    private EditText edt_phone, edt_password, edt_password_con, edt_name, edt_email;
+    RadioGroup radioGroup;
+    String str_phone="", str_password="", str_password_con="", str_name="", str_email="", str_gender="Nam";
 
-    String server ="http://192.168.5.10:5555";
-    String result;
+    String server ="http://192.168.137.1:8000/api/passenger/register/";
+    String result="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,18 @@ public class SignUpActivity extends AppCompatActivity {
         edt_password = (EditText) findViewById(R.id.signup_edt_password);
         edt_password_con = (EditText) findViewById(R.id.signup_edt_password_confirm);
         edt_name = (EditText) findViewById(R.id.signup_edt_name);
-        edt_dob = (EditText) findViewById(R.id.signup_edt_dob);
+        edt_email = (EditText) findViewById(R.id.signup_edt_email);
+
+        radioGroup = (RadioGroup)findViewById(R.id.signup_radio);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = (RadioButton) group.findViewById(checkedId);
+                str_gender = radioButton.getText().toString();
+            }
+        });
 
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,10 +75,10 @@ public class SignUpActivity extends AppCompatActivity {
                 byte[] hashedData= md.digest();
 
                 str_phone = edt_phone.getText().toString();
-                str_password = getMD5(edt_password.getText().toString()+"ffyytt");
-                str_password_con = getMD5(edt_password_con.getText().toString()+"ffyytt");
+                str_password = getMD5(edt_password.getText().toString()+getResources().getString(R.string.SALT));
+                str_password_con = getMD5(edt_password_con.getText().toString()+getResources().getString(R.string.SALT));
                 str_name = edt_name.getText().toString();
-                str_dob = edt_dob.getText().toString();
+                str_email = edt_email.getText().toString();
 
                 if (!str_password.equals(str_password_con))
                 {
@@ -79,12 +94,14 @@ public class SignUpActivity extends AppCompatActivity {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    result = response.toString();
+                                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.SignUpCompleted),Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), SignUpCompletedActivity.class);
+                                    startActivity(intent);
                                 }
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            result = "-1";
+                            Toast.makeText(getApplicationContext(),"FAILED",Toast.LENGTH_SHORT).show();
                         }
 
                     }) {
@@ -92,16 +109,16 @@ public class SignUpActivity extends AppCompatActivity {
                         protected Map<String, String> getParams()
                                 throws AuthFailureError {
                             Map<String, String> params = new HashMap<String, String>();
-                            params.put("phone", str_phone);
-                            params.put("password", str_password);
                             params.put("name", str_name);
-                            params.put("dob", str_dob);
+                            params.put("phone_no", str_phone);
+                            params.put("email", str_email);
+                            params.put("password", str_password);
+                            params.put("gender", str_gender);
+                            params.put("point", "0");
                             return params;
                         }
                     };
                     queue.add(stringRequest);
-                    Intent intent = new Intent(getApplicationContext(), SignUpCompletedActivity.class);
-                    startActivity(intent);
                 }
             }
         });
