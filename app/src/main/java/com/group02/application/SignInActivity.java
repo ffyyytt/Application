@@ -33,7 +33,7 @@ public class SignInActivity extends AppCompatActivity {
     private EditText edt_phone, edt_password;
     String str_phone, str_password;
 
-    String server ="http://192.168.5.10:5555";
+    String server ="http://192.168.137.1:8000/api/passenger/login/";
     String result = "";
 
     @Override
@@ -60,7 +60,7 @@ public class SignInActivity extends AppCompatActivity {
                 byte[] hashedData= md.digest();
 
                 str_phone = edt_phone.getText().toString();
-                str_password = getMD5(edt_password.getText().toString()+"ffyytt");
+                str_password = getMD5(edt_password.getText().toString()+getResources().getString(R.string.SALT));
 
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                 StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -68,45 +68,28 @@ public class SignInActivity extends AppCompatActivity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                result = response.toString();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.SignInCompleted), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), SignInCompletedActivity.class);
+                                startActivity(intent);
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        edt_password.setText("");
+                        edt_password.setHint(getResources().getString(R.string.password_not_match));
+                        edt_password.setBackgroundColor(Color.RED);
                     }
                 }) {
                     @Override
                     protected Map<String, String> getParams()
                             throws AuthFailureError {
                         Map<String, String> params = new HashMap<String, String>();
-                        params.put("phone", str_phone);
+                        params.put("phone_no", str_phone);
                         params.put("password", str_password);
                         return params;
                     }
                 };
                 queue.add(stringRequest);
-                new CountDownTimer(1500, 100) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-                    public void onFinish() {
-                        Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
-                        if  (result.equals("False"))
-                        {
-                            edt_password.setText("");
-                            edt_password.setHint(getResources().getString(R.string.password_not_match));
-                            edt_password.setBackgroundColor(Color.RED);
-                        }
-                        else
-                        {
-                            Intent intent = new Intent(getApplicationContext(), SignInCompletedActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-                }.start();
-
             }
         });
 
