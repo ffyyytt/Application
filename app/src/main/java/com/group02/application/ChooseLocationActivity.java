@@ -30,14 +30,15 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
     EditText editTextDestinationSearch;
     LatLng[] location;
 
-    boolean clickStartLocation;
-    boolean clickDestinationLocation;
+    String phone_no;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_location);
+
+        phone_no = getIntent().getStringExtra("phone_no");
 
         editTextStartSearch = findViewById(R.id.startSearch);
         editTextDestinationSearch = findViewById(R.id.destinationSearch);
@@ -92,6 +93,7 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
             intent.putExtra("destinationLocation",location[1]);
             intent.putExtra("startLocationName",editTextStartSearch.getText().toString());
             intent.putExtra("destinationLocationName",editTextDestinationSearch.getText().toString());
+            intent.putExtra("phone_no", phone_no);
             startActivity(intent);
         }
     }

@@ -33,6 +33,8 @@ public class SignInActivity extends AppCompatActivity {
     private EditText edt_phone, edt_password;
     String str_phone, str_password;
 
+    public static RequestQueue queue;
+
     String server = SERVER.get_server() + "api/passenger/login/";
     String result = "";
 
@@ -62,7 +64,7 @@ public class SignInActivity extends AppCompatActivity {
                 str_phone = edt_phone.getText().toString();
                 str_password = getMD5(edt_password.getText().toString()+getResources().getString(R.string.SALT));
 
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                queue = Volley.newRequestQueue(getApplicationContext());
                 StringRequest stringRequest = new StringRequest(Request.Method.POST,
                         server,
                         new Response.Listener<String>() {
