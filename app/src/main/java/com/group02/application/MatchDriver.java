@@ -177,7 +177,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-    
+
     private void mergeBackendCancel(String tripID) {
         String server = SERVER.get_server() + "api/passenger/cancel_trip/";
 

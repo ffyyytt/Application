@@ -105,7 +105,7 @@ public class PromotionCodeChoices extends AppCompatActivity {
                     }
                 }
         );
-        SingletonRequestQueue.getInstance().addToRequestQueue(jsonArrayRequest);
+        SingletonRequestQueue.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayRequest);
         return res;
     }
 
