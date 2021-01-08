@@ -10,13 +10,22 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewDebug;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.directions.route.AbstractRouting;
 import com.directions.route.Route;
 import com.directions.route.RouteException;
@@ -32,6 +41,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MatchDriver extends FragmentActivity implements OnMapReadyCallback, RoutingListener {
 
@@ -148,6 +159,10 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        //Start of merge backend
+                        //mergeBackendCancel(tripID);
+                        //End of merge backend
+
                         addSuccessfulCancelRouteDialog();
                     }
                 });
@@ -161,6 +176,37 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+    
+    private void mergeBackendCancel(String tripID) {
+        String server = SERVER.get_server() + "api/passenger/cancel_trip/";
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                server,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("CANCELDEBUG", "Success!");
+                        addSuccessfulCancelRouteDialog();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("CANCELDEBUG", error.getMessage());
+                Toast.makeText(getApplicationContext(),"FAILED",Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams()
+                    throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("trip_id", tripID);
+                return params;
+            }
+        };
+        queue.add(stringRequest);
     }
 
     private void addSuccessfulCancelRouteDialog() {
