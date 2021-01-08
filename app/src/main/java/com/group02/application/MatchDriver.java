@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewDebug;
@@ -188,7 +189,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         alertDialog.show();
     }
 
-    private void mergeBackendCancel(String tripID) {
+    /*private void mergeBackendCancel(String tripID) {
         String server = SERVER.get_server() + "api/passenger/cancel_trip/";
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -218,7 +219,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
             }
         };
         queue.add(stringRequest);
-    }
+    }*/
 
     private void mergeBackendMatchDriver(String startLocationName, String destinationLocationName, int typeVehicle) {
         String server = SERVER.get_server() + "api/passenger/available_vehicles/";
@@ -239,6 +240,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                             infoDriver.setText(name+"-"+vehicle_no+"\n"+phone_no);
 
                             //mergeBookVehicleReturn();
+                            rateDriver();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                             addSuccessfulCancelRouteDialog("Ghép nối tài xế thất bại", "Không tìm thấy tài xế phù hợp!","Trở về");
@@ -270,6 +273,21 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         };
         SingletonRequestQueue.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
 
+    }
+
+    private void rateDriver() {
+        CountDownTimer countDownTimer = new CountDownTimer(8000, 8000) {
+            @Override
+            public void onTick(long l) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                Intent intent = new Intent(MatchDriver.this, RatingActivity.class);
+                startActivity(intent);
+            }
+        }.start();
     }
 
     private void mergeBookVehicleReturn(){
