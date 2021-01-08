@@ -1,8 +1,10 @@
 package com.group02.application;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -35,8 +38,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCallback, RoutingListener {
     String TAG = "ChooseOptionsRoute";
@@ -305,5 +314,4 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
 
         return (int) (distance*priceVehiclePerKM*(1-usePromotionCode));
     }
-
 }
