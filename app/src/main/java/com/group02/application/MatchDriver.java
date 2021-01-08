@@ -45,6 +45,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -219,7 +222,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
 
     private void mergeBackendMatchDriver(String startLocationName, String destinationLocationName, int typeVehicle) {
         String server = SERVER.get_server() + "api/passenger/available_vehicles/";
-
+        Log.d("TAG", "mergeBackendMatchDriver: ");
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 server,
@@ -234,6 +237,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                             String phone_no = object.getString("phone_no");
                             vehicle_no = object.getString("vehicle_no");
                             infoDriver.setText(name+"-"+vehicle_no+"\n"+phone_no);
+
+                            mergeBookVehicleReturn();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             addSuccessfulCancelRouteDialog("Match Driver Fail!", "Can not find matched driver!","Back");
@@ -246,7 +251,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                     public void onErrorResponse(VolleyError error) {
                         Log.d("CANCELDEBUG", error.getMessage());
                         addSuccessfulCancelRouteDialog("Match Driver Fail!", "Can not find matched driver!","Back");
-                        Toast.makeText(getApplicationContext(),"FAILED",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"MATCH DRIVER FAILED",Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override
@@ -256,7 +261,6 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                 if (typeVehicle==0)
                     vehicle_type = "Bike";
                 else vehicle_type = "Car";
-                Log.d("TAG", "getParams: "+vehicle_type+" "+ startLocationName);
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Source_address", startLocationName);
                 params.put("Destination_address", destinationLocationName);
@@ -265,10 +269,12 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
             }
         };
         SingletonRequestQueue.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+
     }
 
     private void mergeBookVehicleReturn(){
         String server = SERVER.get_server() + "api/passenger/book_vehicle/";
+        Log.d("TAG", "mergeBookVehicleReturn: ");
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -289,13 +295,14 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("CANCELDEBUG", error.getMessage());
-                Toast.makeText(getApplicationContext(),"FAILED",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"CREATE ROUTE FAILED",Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
             protected Map<String, String> getParams()
                     throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
+                Log.d("", "getParams: "+ vehicle_no + promotionCode +" "+ distance +" "+ price);
                 params.put("vehicle_no", vehicle_no);
                 params.put("promo_code", promotionCode);
                 params.put("distance", String.valueOf(distance));
@@ -350,13 +357,13 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                 .title(destinationLocationName)).showInfoWindow();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startLocation,15));
 
-        textDistance.setText(textDistance.getText().toString()+arrayList.get(i).getDistanceValue()*1.0/1000+"km");
+        distance = arrayList.get(i).getDistanceValue()*1.0/1000;
+
+        textDistance.setText(textDistance.getText().toString()+distance+"km");
         textDuration.setText(textDuration.getText().toString() + arrayList.get(i).getDurationText());
 
 
         mergeBackendMatchDriver(startLocationName,destinationLocationName,vehicle);
-
-        mergeBookVehicleReturn();
     }
 
     @Override
