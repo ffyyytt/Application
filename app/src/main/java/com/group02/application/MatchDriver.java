@@ -287,7 +287,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
 
             @Override
             public void onFinish() {
-                Intent intent = new Intent(MatchDriver.this, RatingActivity.class);
+                Intent intent = new Intent(getApplicationContext(), RatingActivity.class);
                 startActivity(intent);
             }
         }.start();

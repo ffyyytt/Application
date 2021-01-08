@@ -27,20 +27,20 @@ import java.util.Map;
 
 public class RatingActivity extends AppCompatActivity {
 
-    EditText editTextComment = (EditText)findViewById(R.id.rating_comment);
-    RatingBar ratingBar = (RatingBar)findViewById(R.id.rating_bar);
-    Button btNotRate = (Button)findViewById(R.id.rating_bt_not_rate);
-    Button btRate = (Button)findViewById(R.id.rating_bt_rate);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
 
+        EditText editTextComment = (EditText)findViewById(R.id.rating_comment);
+        RatingBar ratingBar = (RatingBar)findViewById(R.id.rating_bar);
+        Button btNotRate = (Button)findViewById(R.id.rating_bt_not_rate);
+        Button btRate = (Button)findViewById(R.id.rating_bt_rate);
+
         btNotRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), LocationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ChooseLocationActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -66,7 +66,7 @@ public class RatingActivity extends AppCompatActivity {
         });
     }
 
-    private void mergeBackend() {
+    /*private void mergeBackend() {
         String server = SERVER.get_server() + "api/passenger/rate_driver/";
 
         Intent intent = getIntent();
@@ -100,7 +100,7 @@ public class RatingActivity extends AppCompatActivity {
             }
         };
         queue.add(stringRequest);
-    }
+    }*/
 
     private void addRatedDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -112,7 +112,7 @@ public class RatingActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(getApplicationContext(), LocationActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), ChooseLocationActivity.class);
                         startActivity(intent);
                         finish();
                     }
