@@ -29,7 +29,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.group02.application.SignInActivity.queue;
 
 public class PromotionCodeChoices extends AppCompatActivity {
     String TAG = "PromotionCodeChoices";
@@ -78,6 +77,9 @@ public class PromotionCodeChoices extends AppCompatActivity {
     private ArrayList<String> getListItemfromBackEnd(){
         ArrayList<String> res = new ArrayList<>();
         String url = SERVER.get_server() + "api/passenger/get_promotion/";
+
+        RequestQueue queue = SingletonRequestQueue.getInstance(getApplicationContext()).getRequestQueue();
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -103,7 +105,7 @@ public class PromotionCodeChoices extends AppCompatActivity {
                     }
                 }
         );
-        queue.add(jsonArrayRequest);
+        SingletonRequestQueue.getInstance().addToRequestQueue(jsonArrayRequest);
         return res;
     }
 
