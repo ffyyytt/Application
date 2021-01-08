@@ -238,10 +238,10 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                             vehicle_no = object.getString("vehicle_no");
                             infoDriver.setText(name+"-"+vehicle_no+"\n"+phone_no);
 
-                            mergeBookVehicleReturn();
+                            //mergeBookVehicleReturn();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            addSuccessfulCancelRouteDialog("Match Driver Fail!", "Can not find matched driver!","Back");
+                            addSuccessfulCancelRouteDialog("Ghép nối tài xế thất bại", "Không tìm thấy tài xế phù hợp!","Trở về");
                         }
 
                     }
@@ -250,8 +250,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("CANCELDEBUG", error.getMessage());
-                        addSuccessfulCancelRouteDialog("Match Driver Fail!", "Can not find matched driver!","Back");
-                        Toast.makeText(getApplicationContext(),"MATCH DRIVER FAILED",Toast.LENGTH_SHORT).show();
+                        addSuccessfulCancelRouteDialog("Ghép nối tài xế thất bại", "Không tìm thấy tài xế phù hợp!","Trở về");
+                        Toast.makeText(getApplicationContext(),"Ghép nối thất bại",Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override
