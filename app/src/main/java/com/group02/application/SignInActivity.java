@@ -59,39 +59,50 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 byte[] hashedData= md.digest();
 
-                str_phone = edt_phone.getText().toString();
-                str_password = getMD5(edt_password.getText().toString()+getResources().getString(R.string.SALT));
+                if (edt_phone.getText().toString().equals("") || edt_password.getText().toString().equals(""))
+                {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_null),Toast.LENGTH_SHORT).show();
+                }
+                else if (!edt_phone.getText().toString().replaceAll("0", "").replaceAll("1","").replaceAll("2","").replaceAll("3","").replaceAll("4","").replaceAll("5","").replaceAll("6","").replaceAll("7","").replaceAll("8","").replaceAll("9","").replaceAll("/+","").equals(""))
+                {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.phone_wrong),Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                        server,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Log.d("SIGNINDEBUG", "onResponse: " + response);
-                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.SignInCompleted), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), SignInCompletedActivity.class);
-                                intent.putExtra("phone_no", str_phone);
-                                startActivity(intent);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("SIGNINDEBUG", error.getMessage());
-                        edt_password.setText("");
-                        edt_password.setHint(getResources().getString(R.string.password_not_match));
-                        edt_password.setBackgroundColor(Color.RED);
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams()
-                            throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("phone_no", str_phone);
-                        params.put("password", edt_password.getText().toString());
-                        return params;
-                    }
-                };
-                SingletonRequestQueue.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+                    str_phone = edt_phone.getText().toString();
+                    str_password = getMD5(edt_password.getText().toString() + getResources().getString(R.string.SALT));
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                            server,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    Log.d("SIGNINDEBUG", "onResponse: " + response);
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.SignInCompleted), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), SignInCompletedActivity.class);
+                                    intent.putExtra("phone_no", str_phone);
+                                    startActivity(intent);
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            edt_password.setText("");
+                            edt_password.setHint(getResources().getString(R.string.password_not_match));
+                            edt_password.setBackgroundColor(Color.RED);
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams()
+                                throws AuthFailureError {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("phone_no", str_phone);
+                            params.put("password", str_password);
+                            return params;
+                        }
+                    };
+                    SingletonRequestQueue.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+                }
             }
         });
 
