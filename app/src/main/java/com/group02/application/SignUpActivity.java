@@ -84,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
                 {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_null),Toast.LENGTH_SHORT).show();
                 }
-                else if (edt_phone.getText().toString().length() < 10 || edt_phone.getText().toString().length() > 12 || !edt_phone.getText().toString().replaceAll("0", "").replaceAll("1","").replaceAll("2","").replaceAll("3","").replaceAll("4","").replaceAll("5","").replaceAll("6","").replaceAll("7","").replaceAll("8","").replaceAll("9","").replaceAll("\\+","").equals(""))
+                else if (false && edt_phone.getText().toString().length() < 10 || edt_phone.getText().toString().length() > 12 || !edt_phone.getText().toString().replaceAll("0", "").replaceAll("1","").replaceAll("2","").replaceAll("3","").replaceAll("4","").replaceAll("5","").replaceAll("6","").replaceAll("7","").replaceAll("8","").replaceAll("9","").replaceAll("\\+","").equals(""))
                 {
                     edt_phone.setBackgroundColor(Color.RED);
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.phone_wrong),Toast.LENGTH_SHORT).show();
@@ -121,7 +121,7 @@ public class SignUpActivity extends AppCompatActivity {
                             params.put("name", str_name);
                             params.put("phone_no", str_phone);
                             params.put("email", str_email);
-                            params.put("password", str_password);
+                            params.put("password", edt_password.getText().toString());
                             params.put("gender", str_gender);
                             params.put("point", "0");
                             return params;
