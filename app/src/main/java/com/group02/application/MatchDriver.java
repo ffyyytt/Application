@@ -84,6 +84,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         //retrieveIntentfromChooseOptionRoute
         retrieveIntentfromChooseOptionRoute();
 
+        if (price<10) addSuccessfulCancelRouteDialog("Cước phí","Giá chuyến xe quá thấp. Hãy chọn lại địa điểm!","Trở về");
+
         imgDriver = findViewById(R.id.imageDriver);
         infoDriver = findViewById(R.id.infoDriver);
         textViewPrice = findViewById(R.id.vehicle);
@@ -238,10 +240,10 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                             vehicle_no = object.getString("vehicle_no");
                             infoDriver.setText(name+"-"+vehicle_no+"\n"+phone_no);
 
-                            mergeBookVehicleReturn();
+                            //mergeBookVehicleReturn();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            addSuccessfulCancelRouteDialog("Match Driver Fail!", "Can not find matched driver!","Back");
+                            addSuccessfulCancelRouteDialog("Kết nối thất bại!", "Không thể tìm thấy tài xế phù hợp!","Trở về");
                         }
 
                     }
@@ -250,7 +252,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("CANCELDEBUG", error.getMessage());
-                        addSuccessfulCancelRouteDialog("Match Driver Fail!", "Can not find matched driver!","Back");
+                        addSuccessfulCancelRouteDialog("Kết nối thất bại!", "Không thể tìm thấy tài xế phù hợp!","Trở về");
                         Toast.makeText(getApplicationContext(),"MATCH DRIVER FAILED",Toast.LENGTH_SHORT).show();
                     }
                 }) {
