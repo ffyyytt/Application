@@ -262,7 +262,7 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
 
     @Override
     public void onRoutingStart() {
-        Toast.makeText(getApplicationContext(),"Finding Route started!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"Tìm kiếm đường đi!", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onRoutingStart: ");
     }
 
