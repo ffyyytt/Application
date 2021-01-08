@@ -42,6 +42,7 @@
     <string name="SALT">SALT</string>
     <string name="not_null">Không được để trống!</string>
     <string name="phone_wrong">Số điện thoại không hợp lệ</string>
+    <string name="signup_failed">Đăng ký không thành công</string>
 
     <string-array name="list_view">
         <item>0.1</item>
