@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewDebug;
@@ -223,13 +224,17 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
     private void mergeBackendMatchDriver(String startLocationName, String destinationLocationName, int typeVehicle) {
         String server = SERVER.get_server() + "api/passenger/available_vehicles/";
         Log.d("TAG", "mergeBackendMatchDriver: ");
+
+        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getApplicationContext()), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+        CookieHandler.setDefault(cookieManager);
+
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 server,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("CANCELDEBUG", "Success!"+response);
+                        Log.d("MATCHDRIVER", "Success!"+response);
                         try {
                             JSONArray array=new JSONArray(response);
                             JSONObject object = array.getJSONObject(0);
@@ -238,7 +243,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                             vehicle_no = object.getString("vehicle_no");
                             infoDriver.setText(name+"-"+vehicle_no+"\n"+phone_no);
 
-                            mergeBookVehicleReturn();
+                            //mergeBookVehicleReturn();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                             addSuccessfulCancelRouteDialog("Match Driver Fail!", "Can not find matched driver!","Back");
@@ -249,7 +255,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("CANCELDEBUG", error.getMessage());
+                        Log.d("TAG", error.getMessage());
                         addSuccessfulCancelRouteDialog("Match Driver Fail!", "Can not find matched driver!","Back");
                         Toast.makeText(getApplicationContext(),"MATCH DRIVER FAILED",Toast.LENGTH_SHORT).show();
                     }
@@ -272,6 +278,17 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
+    private void ratingDriver() {
+        CountDownTimer countDownTimer = new CountDownTimer(8000, 3000) {
+            public void onTick(long mil) {
+            }
+            public void onFinish() {
+                Intent intent = new Intent(getApplicationContext(), RatingActivity.class);
+                startActivity(intent);
+            }
+        }.start();
+    }
+
     private void mergeBookVehicleReturn(){
         String server = SERVER.get_server() + "api/passenger/book_vehicle/";
         Log.d("TAG", "mergeBookVehicleReturn: ");
@@ -282,7 +299,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("CANCELDEBUG", "Success!"+response);
+                        Log.d("TAG", "Success!"+response);
                         JSONObject object = null;
                         try {
                             object = new JSONObject(response);
@@ -294,7 +311,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("CANCELDEBUG", error.getMessage());
+                Log.d("TAG", error.getMessage());
                 Toast.makeText(getApplicationContext(),"CREATE ROUTE FAILED",Toast.LENGTH_SHORT).show();
             }
         }) {
@@ -364,6 +381,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
 
 
         mergeBackendMatchDriver(startLocationName,destinationLocationName,vehicle);
+        //ratingDriver();
     }
 
     @Override

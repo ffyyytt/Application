@@ -51,15 +51,15 @@ public class RatingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 double stars = Double.parseDouble(String.valueOf(ratingBar.getRating()));
                 String comment = editTextComment.getText().toString();
-                Log.d("RatingDebug", "Stars = " + stars);
-                Log.d("RatingDebug", "Comment = " + comment);
+                //Log.d("RatingDebug", "Stars = " + stars);
+                //Log.d("RatingDebug", "Comment = " + comment);
                 if (stars == 0.0)
                     addNotRateYetDialog();
                 else {
-                    /*addRatedDialog();*/
+                    addRatedDialog();
 
                     //Start of merge backend
-                    mergeBackend();
+                    //mergeBackend();
                     //End of merge backend
                 }
             }
