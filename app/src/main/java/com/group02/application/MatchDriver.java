@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -40,6 +41,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,6 +69,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
     TextView textDuration;
     Button detailSteps;
     Button cancelRoute;
+
+    ProgressDialog progressdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +129,6 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         textViewStartLocation.setText(startLocationName);
         textViewDestinationLocation.setText(destinationLocationName);
 
-
         detailSteps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,7 +169,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                         //mergeBackendCancel(tripID);
                         //End of merge backend
 
-                        addSuccessfulCancelRouteDialog();
+                        addSuccessfulCancelRouteDialog(getResources().getString(R.string.successful_cancel_route_title),
+                                getResources().getString(R.string.successful_cancel_route_message), getResources().getString(R.string.accept) );
                     }
                 });
         builder.setNegativeButton(
@@ -189,7 +196,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                     @Override
                     public void onResponse(String response) {
                         Log.d("CANCELDEBUG", "Success!");
-                        addSuccessfulCancelRouteDialog();
+                        addSuccessfulCancelRouteDialog(getResources().getString(R.string.successful_cancel_route_title),
+                                getResources().getString(R.string.successful_cancel_route_message), getResources().getString(R.string.accept));
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -209,17 +217,72 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         queue.add(stringRequest);
     }
 
-    private void addSuccessfulCancelRouteDialog() {
+    private void mergeBackendMatchDriver(String startLocationName, String destinationLocationName, int typeVehicle) {
+        String server = SERVER.get_server() + "api/passenger/available_vehicles/";
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                server,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("CANCELDEBUG", "Success!");
+                        progressdialog.dismiss();
+
+                        try {
+                            JSONArray array=new JSONArray(response);
+                            if (array.length()==0){
+                                addSuccessfulCancelRouteDialog("Match Driver Fail!", "Can not find matched driver!","Back");
+                            }
+                            else{
+                                JSONObject object = array.getJSONObject(0);
+                                String name = object.getString("name");
+                                String phone_no = object.getString("phone_no");
+                                String vehicle_no = object.getString("vehicle_no");
+                                infoDriver.setText(name+"\n"+phone_no);
+                            }
+                            for(int i=0;i<array.length();i++) {
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("CANCELDEBUG", error.getMessage());
+                Toast.makeText(getApplicationContext(),"FAILED",Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams()
+                    throws AuthFailureError {
+                String vehicle_type;
+                if (typeVehicle==0)
+                    vehicle_type = "Bike";
+                else vehicle_type = "Car";
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("source_address", startLocationName);
+                params.put("destination_address", destinationLocationName);
+                params.put("vehicle_type", vehicle_type);
+                return params;
+            }
+        };
+        SingletonRequestQueue.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void addSuccessfulCancelRouteDialog(String title, String messenge, String buttonBack) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getResources().getString(R.string.successful_cancel_route_title));
-        builder.setMessage(getResources().getString(R.string.successful_cancel_route_message));
+        builder.setTitle(title);
+        builder.setMessage(messenge);
         builder.setCancelable(false);
         builder.setPositiveButton(
-                getResources().getString(R.string.accept),
+                buttonBack,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(getApplicationContext(), ChooseLocationActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), ChooseOptionsRoute.class);
                         startActivity(intent);
                         finish();
                     }
@@ -255,6 +318,13 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
 
         textDistance.setText(textDistance.getText().toString()+arrayList.get(i).getDistanceValue()*1.0/1000+"km");
         textDuration.setText(textDuration.getText().toString() + arrayList.get(i).getDurationText());
+
+
+        progressdialog = new ProgressDialog(getApplicationContext());
+        progressdialog.setMessage("Please wait match a driver....");
+        progressdialog.show();
+        mergeBackendMatchDriver(startLocationName,destinationLocationName,vehicle);
+
     }
 
     @Override

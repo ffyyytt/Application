@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -52,33 +53,11 @@ public class PromotionCodeChoices extends AppCompatActivity {
 
         phone_no = getIntent().getStringExtra("phone_no");
 
-        CustomAdapter adapter = new CustomAdapter(listItem, this);
-        listView.setAdapter(adapter);
-
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                // TODO Auto-generated method stub
-//                String value=adapter.getItem(position);
-//                Log.d("TAG", "onItemClick: code string promotion: "+value);
-//
-//                promotionCode = Double.parseDouble(value);
-//
-//                Intent intent = new Intent();
-//                intent.putExtra("promotionCode", promotionCode);
-//
-//                setResult(Activity.RESULT_OK, intent);
-//                finish();
-//
-//            }
-//        });
     }
 
     private ArrayList<String> getListItemfromBackEnd(){
         ArrayList<String> res = new ArrayList<>();
         String url = SERVER.get_server() + "api/passenger/get_promotion/";
-
-        RequestQueue queue = SingletonRequestQueue.getInstance(getApplicationContext()).getRequestQueue();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
@@ -95,6 +74,9 @@ public class PromotionCodeChoices extends AppCompatActivity {
                         }
                         Log.d(TAG, "onResponse: "+res.toString());
                         Log.d(TAG, "onResponse: "+url);
+
+                        CustomAdapter adapter = new CustomAdapter(listItem, PromotionCodeChoices.this);
+                        listView.setAdapter(adapter);
                     }
                 },
                 new Response.ErrorListener() {

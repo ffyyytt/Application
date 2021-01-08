@@ -5,26 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailPromotionCode"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <TextView
+
+<TextView
         android:id="@+id/textViewId"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Id: "/>
+        android:text="Id: "
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"/>
     <TextView
         android:id="@+id/textViewExpiredDate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Expired Date: "/>
+        android:text="Expired Date: "
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"/>
     <TextView
         android:id="@+id/textViewCondition"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Condition: "/>
+        android:text="Condition: "
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,6 +55,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+
 
 
 </LinearLayout>
