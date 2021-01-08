@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Distance: "
+            android:text="Khoảng cách: "
             android:textColor="@color/black"
             android:gravity="center"/>
 
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Duration: "
+            android:text="Thời gian: "
             android:textColor="@color/black"
             android:gravity="center"/>
     </LinearLayout>
@@ -92,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="Bike"
+                android:text="Xe máy"
                 android:gravity="center"
                 android:textColor="@color/black"/>
         </LinearLayout>
@@ -138,7 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="Car 4-seat"
+                android:text="Ô tô 4 chỗ"
                 android:gravity="center"
                 android:textColor="@color/black"/>
         </LinearLayout>
@@ -184,7 +184,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="Car 7-seat"
+                android:text="Ô tô 7 chỗ"
                 android:gravity="center"
                 android:textColor="@color/black"/>
         </LinearLayout>
@@ -203,32 +203,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.2"
-                android:text="Cash"
+                android:text="Tiền mặt"
                 android:id="@+id/btnTypePay"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Promotion Code"
+                android:text="Mã khuyến mãi"
                 android:id="@+id/btnPromotionCode"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.4"
-                android:text="Help"
+                android:text="Giúp đỡ"
                 android:id="@+id/btnHelp"/>
         </LinearLayout>
         <Button
             android:id="@+id/btnDetailSteps"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Detail Steps"
+            android:text="Chi tiết đường đi"
             android:layout_weight="1"/>
         <Button
             android:id="@+id/btnBookNow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Book Now"
+            android:text="Đặt xe"
             android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>
