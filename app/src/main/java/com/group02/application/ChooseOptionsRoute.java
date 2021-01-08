@@ -46,6 +46,7 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
     int typeOfPayValue = 0;
     double promotionCodeValue = 0;
     double distanceRoute = 0;
+    String promotionCode = "None";
 
     private GoogleMap mMap;
     LatLng startLocation;
@@ -172,6 +173,7 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
             public void onClick(View view) {
                 Intent intent = new Intent(ChooseOptionsRoute.this, MatchDriver.class);
                 intent.putExtra("vehicle", curVehicle);
+                intent.putExtra("promo_code", promotionCode);
                 intent.putExtra("priceRoute", priceRoute[curVehicle]);
                 intent.putExtra("startLocation",startLocation);
                 intent.putExtra("destinationLocation",destinationLocation);
@@ -225,7 +227,7 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
 
         if (requestCode == REQUEST_CODE_INTENT_PROMOTIONCODE) {
             if (resultCode == Activity.RESULT_OK) {
-                String promotionCode = data.getStringExtra("promotionCode");
+                promotionCode = data.getStringExtra("promotionCode");
                 promotionCodeValue = 0.3;
                 Log.d(TAG, "onActivityResult: return promotionCode: "+promotionCodeValue);
                 btnPromotionCode.setText(promotionCode+"-"+promotionCodeValue*100+"%");

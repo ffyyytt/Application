@@ -52,9 +52,12 @@ import java.util.Map;
 public class MatchDriver extends FragmentActivity implements OnMapReadyCallback, RoutingListener {
 
     private GoogleMap mMap;
-    int idDriver;
     int price;
+    double distance;
     int vehicle;
+    String vehicle_no;
+    String tripID;
+    String promotionCode;
     String startLocationName;
     String destinationLocationName;
     LatLng startLocation;
@@ -69,8 +72,6 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
     TextView textDuration;
     Button detailSteps;
     Button cancelRoute;
-
-    ProgressDialog progressdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +99,10 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
 
     private void retrieveIntentfromChooseOptionRoute() {
         Intent intent = getIntent();
-        //set value for map,price, location, driver
-        //ex: id driver
 
         vehicle = intent.getIntExtra("vehicle", 0);
         price = intent.getIntExtra("priceRoute", 0);
+        promotionCode = intent.getStringExtra("promo_code");
         startLocation = intent.getParcelableExtra("startLocation");
         destinationLocation = intent.getParcelableExtra("destinationLocation");
         startLocationName = intent.getStringExtra("startLocationName");
@@ -195,7 +195,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("CANCELDEBUG", "Success!");
+                        Log.d("CANCELDEBUG", "Success!"+response);
                         addSuccessfulCancelRouteDialog(getResources().getString(R.string.successful_cancel_route_title),
                                 getResources().getString(R.string.successful_cancel_route_message), getResources().getString(R.string.accept));
                     }
@@ -226,27 +226,64 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("CANCELDEBUG", "Success!");
-                        progressdialog.dismiss();
-
+                        Log.d("CANCELDEBUG", "Success!"+response);
                         try {
                             JSONArray array=new JSONArray(response);
-                            if (array.length()==0){
-                                addSuccessfulCancelRouteDialog("Match Driver Fail!", "Can not find matched driver!","Back");
-                            }
-                            else{
-                                JSONObject object = array.getJSONObject(0);
-                                String name = object.getString("name");
-                                String phone_no = object.getString("phone_no");
-                                String vehicle_no = object.getString("vehicle_no");
-                                infoDriver.setText(name+"\n"+phone_no);
-                            }
-                            for(int i=0;i<array.length();i++) {
-                            }
+                            JSONObject object = array.getJSONObject(0);
+                            String name = object.getString("name");
+                            String phone_no = object.getString("phone_no");
+                            vehicle_no = object.getString("vehicle_no");
+                            infoDriver.setText(name+"-"+vehicle_no+"\n"+phone_no);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            addSuccessfulCancelRouteDialog("Match Driver Fail!", "Can not find matched driver!","Back");
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("CANCELDEBUG", error.getMessage());
+                        addSuccessfulCancelRouteDialog("Match Driver Fail!", "Can not find matched driver!","Back");
+                        Toast.makeText(getApplicationContext(),"FAILED",Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams()
+                    throws AuthFailureError {
+                String vehicle_type;
+                if (typeVehicle==0)
+                    vehicle_type = "Bike";
+                else vehicle_type = "Car";
+                Log.d("TAG", "getParams: "+vehicle_type+" "+ startLocationName);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Source_address", startLocationName);
+                params.put("Destination_address", destinationLocationName);
+                params.put("Vehicle_type", vehicle_type);
+                return params;
+            }
+        };
+        SingletonRequestQueue.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void mergeBookVehicleReturn(){
+        String server = SERVER.get_server() + "api/passenger/book_vehicle/";
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                server,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("CANCELDEBUG", "Success!"+response);
+                        JSONObject object = null;
+                        try {
+                            object = new JSONObject(response);
+                            tripID = object.getString("trip ID");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -258,14 +295,11 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
             @Override
             protected Map<String, String> getParams()
                     throws AuthFailureError {
-                String vehicle_type;
-                if (typeVehicle==0)
-                    vehicle_type = "Bike";
-                else vehicle_type = "Car";
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("source_address", startLocationName);
-                params.put("destination_address", destinationLocationName);
-                params.put("vehicle_type", vehicle_type);
+                params.put("vehicle_no", vehicle_no);
+                params.put("promo_code", promotionCode);
+                params.put("distance", String.valueOf(distance));
+                params.put("total_paid", String.valueOf(price));
                 return params;
             }
         };
@@ -282,7 +316,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(getApplicationContext(), ChooseOptionsRoute.class);
+                        Intent intent = new Intent(getApplicationContext(), ChooseLocationActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -320,11 +354,9 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         textDuration.setText(textDuration.getText().toString() + arrayList.get(i).getDurationText());
 
 
-        progressdialog = new ProgressDialog(getApplicationContext());
-        progressdialog.setMessage("Please wait match a driver....");
-        progressdialog.show();
         mergeBackendMatchDriver(startLocationName,destinationLocationName,vehicle);
 
+        mergeBookVehicleReturn();
     }
 
     @Override
