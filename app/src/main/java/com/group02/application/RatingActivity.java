@@ -27,15 +27,15 @@ import java.util.Map;
 
 public class RatingActivity extends AppCompatActivity {
 
+    EditText editTextComment = (EditText)findViewById(R.id.rating_comment);
+    RatingBar ratingBar = (RatingBar)findViewById(R.id.rating_bar);
+    Button btNotRate = (Button)findViewById(R.id.rating_bt_not_rate);
+    Button btRate = (Button)findViewById(R.id.rating_bt_rate);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
-
-        EditText editTextComment = (EditText)findViewById(R.id.rating_comment);
-        RatingBar ratingBar = (RatingBar)findViewById(R.id.rating_bar);
-        Button btNotRate = (Button)findViewById(R.id.rating_bt_not_rate);
-        Button btRate = (Button)findViewById(R.id.rating_bt_rate);
 
         btNotRate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +85,7 @@ public class RatingActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("SIGNINDEBUG", error.getMessage());
+                Log.d("RATINGDEBUG", error.getMessage());
                 Toast.makeText(getApplicationContext(),"FAILED",Toast.LENGTH_SHORT).show();
             }
         }) {
@@ -94,6 +94,8 @@ public class RatingActivity extends AppCompatActivity {
                     throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("trip_id", tripID);
+                params.put("driver_rating", String.valueOf(ratingBar.getRating()));
+                params.put("driver_comment", editTextComment.getText().toString());
                 return params;
             }
         };
