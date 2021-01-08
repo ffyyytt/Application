@@ -75,8 +75,8 @@ public class SignUpActivity extends AppCompatActivity {
                 byte[] hashedData= md.digest();
 
                 str_phone = edt_phone.getText().toString();
-                str_password = getMD5(edt_password.getText().toString()+getResources().getString(R.string.SALT));
-                str_password_con = getMD5(edt_password_con.getText().toString()+getResources().getString(R.string.SALT));
+                str_password = edt_password.getText().toString(); //getMD5(edt_password.getText().toString()+getResources().getString(R.string.SALT));
+                str_password_con = edt_password_con.getText().toString(); //getMD5(edt_password_con.getText().toString()+getResources().getString(R.string.SALT));
                 str_name = edt_name.getText().toString();
                 str_email = edt_email.getText().toString();
 
@@ -84,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
                 {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_null),Toast.LENGTH_SHORT).show();
                 }
-                else if (false && edt_phone.getText().toString().length() < 10 || edt_phone.getText().toString().length() > 12 || !edt_phone.getText().toString().replaceAll("0", "").replaceAll("1","").replaceAll("2","").replaceAll("3","").replaceAll("4","").replaceAll("5","").replaceAll("6","").replaceAll("7","").replaceAll("8","").replaceAll("9","").replaceAll("\\+","").equals(""))
+                else if (edt_phone.getText().toString().length() < 10 || edt_phone.getText().toString().length() > 12 || !edt_phone.getText().toString().replaceAll("0", "").replaceAll("1","").replaceAll("2","").replaceAll("3","").replaceAll("4","").replaceAll("5","").replaceAll("6","").replaceAll("7","").replaceAll("8","").replaceAll("9","").replaceAll("\\+","").equals(""))
                 {
                     edt_phone.setBackgroundColor(Color.RED);
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.phone_wrong),Toast.LENGTH_SHORT).show();
@@ -121,7 +121,7 @@ public class SignUpActivity extends AppCompatActivity {
                             params.put("name", str_name);
                             params.put("phone_no", str_phone);
                             params.put("email", str_email);
-                            params.put("password", edt_password.getText().toString());
+                            params.put("password", str_password);
                             params.put("gender", str_gender);
                             params.put("point", "0");
                             return params;

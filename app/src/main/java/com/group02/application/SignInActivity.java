@@ -63,7 +63,7 @@ public class SignInActivity extends AppCompatActivity {
                 {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_null),Toast.LENGTH_SHORT).show();
                 }
-                else if (false && edt_phone.getText().toString().length() < 10 || edt_phone.getText().toString().length() > 12 || !edt_phone.getText().toString().replaceAll("0", "").replaceAll("1","").replaceAll("2","").replaceAll("3","").replaceAll("4","").replaceAll("5","").replaceAll("6","").replaceAll("7","").replaceAll("8","").replaceAll("9","").replaceAll("\\+","").equals(""))
+                else if (edt_phone.getText().toString().length() < 10 || edt_phone.getText().toString().length() > 12 || !edt_phone.getText().toString().replaceAll("0", "").replaceAll("1","").replaceAll("2","").replaceAll("3","").replaceAll("4","").replaceAll("5","").replaceAll("6","").replaceAll("7","").replaceAll("8","").replaceAll("9","").replaceAll("\\+","").equals(""))
                 {
                     edt_phone.setBackgroundColor(Color.RED);
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.phone_wrong),Toast.LENGTH_SHORT).show();
@@ -72,7 +72,7 @@ public class SignInActivity extends AppCompatActivity {
                 {
 
                     str_phone = edt_phone.getText().toString();
-                    str_password = getMD5(edt_password.getText().toString() + getResources().getString(R.string.SALT));
+                    str_password = edt_password.getText().toString(); //getMD5(edt_password.getText().toString() + getResources().getString(R.string.SALT));
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST,
                             server,
