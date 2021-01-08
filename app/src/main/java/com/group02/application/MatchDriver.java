@@ -120,14 +120,14 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         //set info for driver from idDriver
         if (vehicle==1) {
             textViewPrice.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_baseline_four_seat_24, 0, 0);
-            textViewPrice.setText(price+"k\n"+"Car 4-seat");
+            textViewPrice.setText(price+"k\n"+"Ô tô 4 chỗ");
         }
         else if (vehicle==2) {
             textViewPrice.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_baseline_seven_seat_24, 0, 0);
-            textViewPrice.setText(price+"k\n"+"Car 7-seat");
+            textViewPrice.setText(price+"k\n"+"Ô to 7 chỗ");
         }
         else{
-            textViewPrice.setText(price+"k\n"+"Bike");
+            textViewPrice.setText(price+"k\n"+"Xe máy");
         }
         textViewStartLocation.setText(startLocationName);
         textViewDestinationLocation.setText(destinationLocationName);
@@ -206,7 +206,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("CANCELDEBUG", error.getMessage());
-                Toast.makeText(getApplicationContext(),"FAILED",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Thất bại",Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

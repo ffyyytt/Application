@@ -30,7 +30,7 @@
             android:drawableLeft="@drawable/ic_baseline_search_24"
             android:drawablePadding="20dp"
             android:id="@+id/startSearch"
-            android:hint="Enter picked-up location"/>
+            android:hint="Địa điểm đón"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -38,6 +38,6 @@
             android:drawableLeft="@drawable/ic_baseline_search_24"
             android:id="@+id/destinationSearch"
             android:drawablePadding="20dp"
-            android:hint="Enter destination location"/>
+            android:hint="Địa điểm đến"/>
     </LinearLayout>
 </LinearLayout>

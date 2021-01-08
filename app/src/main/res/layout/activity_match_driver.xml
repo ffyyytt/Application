@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Distance: "
+            android:text="Khoảng cách: "
             android:textColor="@color/black"
             android:gravity="center"/>
 
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Duration: "
+            android:text="Thời gian: "
             android:textColor="@color/black"
             android:gravity="center"/>
 
@@ -80,7 +80,7 @@
             android:drawableTop="@drawable/ic_baseline_motobike_24"
             android:drawableTint="@color/black"
             android:textSize="10dp"
-            android:text="Bike"
+            android:text="Xe máy"
             android:backgroundTint="@color/white"
             android:id="@+id/vehicle"/>
         <LinearLayout
@@ -116,13 +116,13 @@
             android:id="@+id/btnDetailSteps"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Detail Steps"
+            android:text="Chi tiết đường đi"
             android:layout_weight="1" />
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Cancel Route"
+            android:text="Hủy chuyến"
             android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>

@@ -9,7 +9,7 @@
 
     <Button
         android:id="@+id/btnCreditCard"
-        android:text="Credit Card"
+        android:text="Thẻ ngân hàng"
         android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -17,7 +17,7 @@
 
     <Button
         android:id="@+id/btnCash"
-        android:text="Cash"
+        android:text="Tiền mặt"
         android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="100dp"
