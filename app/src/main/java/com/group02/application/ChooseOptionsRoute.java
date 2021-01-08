@@ -227,8 +227,8 @@ public class ChooseOptionsRoute extends FragmentActivity implements OnMapReadyCa
             if (resultCode == Activity.RESULT_OK) {
                 typeOfPayValue = data.getIntExtra("typePay", 0);
                 if (typeOfPayValue == 1)
-                    btnTypePay.setText("Credit Card");
-                else btnTypePay.setText("Cash");
+                    btnTypePay.setText("Thẻ ngân hàng");
+                else btnTypePay.setText("Tiền mặt");
             } else {
                 // DetailActivity không thành công, không có data trả về.
             }

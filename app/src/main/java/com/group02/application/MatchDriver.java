@@ -116,6 +116,9 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        if (price<10) addSuccessfulCancelRouteDialog("Huỷ chuyến","Không thể thực hiện chuyến xe có giá tiền quá thấp. Mời chọn lại địa điểm!","Trở lại");
+
+
         //set image for driver from idDriver
         //set info for driver from idDriver
         if (vehicle==1) {
@@ -362,6 +365,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         textDistance.setText(textDistance.getText().toString()+distance+"km");
         textDuration.setText(textDuration.getText().toString() + arrayList.get(i).getDurationText());
 
+        if (distance >100) addSuccessfulCancelRouteDialog("Hủy chuyến","Không thể thực hiện chuyến xe dài trên 100km. Mời chọn địa điểm khác!","trở về");
 
         mergeBackendMatchDriver(startLocationName,destinationLocationName,vehicle);
     }
