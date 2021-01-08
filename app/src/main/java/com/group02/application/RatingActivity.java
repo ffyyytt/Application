@@ -2,15 +2,28 @@ package com.group02.application;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RatingActivity extends AppCompatActivity {
 
@@ -43,10 +56,48 @@ public class RatingActivity extends AppCompatActivity {
                 if (stars == 0.0)
                     addNotRateYetDialog();
                 else {
-                    addRatedDialog();
+                    /*addRatedDialog();*/
+
+                    //Start of merge backend
+                    mergeBackend();
+                    //End of merge backend
                 }
             }
         });
+    }
+
+    private void mergeBackend() {
+        String server = SERVER.get_server() + "api/passenger/rate_driver/";
+
+        Intent intent = getIntent();
+        String tripID = intent.getStringExtra("trip_id");
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                server,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("RATINGDEBUG", "Success!");
+                        addRatedDialog();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("SIGNINDEBUG", error.getMessage());
+                Toast.makeText(getApplicationContext(),"FAILED",Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams()
+                    throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("trip_id", tripID);
+                return params;
+            }
+        };
+        queue.add(stringRequest);
     }
 
     private void addRatedDialog() {
