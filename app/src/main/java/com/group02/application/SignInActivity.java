@@ -24,8 +24,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.group02.application.SignUpActivity.getMD5;
-
 public class SignInActivity extends AppCompatActivity {
 
     private Button btn_signup;
@@ -34,7 +32,6 @@ public class SignInActivity extends AppCompatActivity {
     String str_phone, str_password;
 
     String server = SERVER.get_server() + "api/passenger/login/";
-    String result = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +47,6 @@ public class SignInActivity extends AppCompatActivity {
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                MessageDigest md = null;
-                try {
-                    md = MessageDigest.getInstance("MD5");
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                }
-                byte[] hashedData= md.digest();
 
                 if (edt_phone.getText().toString().equals("") || edt_password.getText().toString().equals(""))
                 {

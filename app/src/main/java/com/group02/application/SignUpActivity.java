@@ -35,7 +35,6 @@ public class SignUpActivity extends AppCompatActivity {
     String str_phone = "", str_password = "", str_password_con = "", str_name = "", str_email = "", str_gender = "Nam";
 
     String server = SERVER.get_server() + "api/passenger/register/";
-    String result = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +64,6 @@ public class SignUpActivity extends AppCompatActivity {
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                MessageDigest md = null;
-                try {
-                    md = MessageDigest.getInstance("MD5");
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                }
-                byte[] hashedData= md.digest();
 
                 str_phone = edt_phone.getText().toString();
                 str_password = edt_password.getText().toString(); //getMD5(edt_password.getText().toString()+getResources().getString(R.string.SALT));
