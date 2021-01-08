@@ -80,7 +80,15 @@ public class SignUpActivity extends AppCompatActivity {
                 str_name = edt_name.getText().toString();
                 str_email = edt_email.getText().toString();
 
-                if (!str_password.equals(str_password_con))
+                if (edt_phone.getText().toString().equals("") || edt_password.getText().toString().equals("") || edt_password_con.getText().toString().equals("") || str_name.equals("") || str_email.equals(""))
+                {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_null),Toast.LENGTH_SHORT).show();
+                }
+                else if (!edt_phone.getText().toString().replaceAll("0", "").replaceAll("1","").replaceAll("2","").replaceAll("3","").replaceAll("4","").replaceAll("5","").replaceAll("6","").replaceAll("7","").replaceAll("8","").replaceAll("9","").replaceAll("/+","").equals(""))
+                {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.phone_wrong),Toast.LENGTH_SHORT).show();
+                }
+                else if (!str_password.equals(str_password_con))
                 {
                     edt_password_con.setText("");
                     edt_password_con.setHint(getResources().getString(R.string.password_not_match));
@@ -101,7 +109,7 @@ public class SignUpActivity extends AppCompatActivity {
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(getApplicationContext(),"FAILED",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),getResources().getString(R.string.signup_failed),Toast.LENGTH_SHORT).show();
                         }
 
                     }) {
@@ -112,7 +120,7 @@ public class SignUpActivity extends AppCompatActivity {
                             params.put("name", str_name);
                             params.put("phone_no", str_phone);
                             params.put("email", str_email);
-                            params.put("password", edt_password.getText().toString());
+                            params.put("password", str_password);
                             params.put("gender", str_gender);
                             params.put("point", "0");
                             return params;
