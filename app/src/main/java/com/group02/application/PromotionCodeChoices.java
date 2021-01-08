@@ -130,11 +130,13 @@ public class PromotionCodeChoices extends AppCompatActivity {
 
             String id = object.getString("id");
             String promo_code = object.getString("promo_code");
+            String phno = object.getString("phone_no");
             String expired_date = object.getString("expired_date");
             String condition = object.getString("condition");
             String passenger_id = object.getString("passenger_id");
             dataList.put("id",id);
             dataList.put("promo_code",promo_code);
+            dataList.put("phone_no",phno);
             dataList.put("expired_date",expired_date);
             dataList.put("condition",condition);
             dataList.put("passenger_id",passenger_id);

@@ -70,6 +70,7 @@ public class SignInActivity extends AppCompatActivity {
                                 Log.d("SIGNINDEBUG", "onResponse: " + response);
                                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.SignInCompleted), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), SignInCompletedActivity.class);
+                                intent.putExtra("phone_no", str_phone);
                                 startActivity(intent);
                             }
                         }, new Response.ErrorListener() {
