@@ -97,7 +97,7 @@ public class SignInActivity extends AppCompatActivity {
                                 throws AuthFailureError {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("phone_no", str_phone);
-                            params.put("password", str_password);
+                            params.put("password", edt_password.getText().toString());
                             return params;
                         }
                     };
