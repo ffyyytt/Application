@@ -139,8 +139,7 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
         detailSteps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),DetailStepOfRoute.class);
-                startActivity(intent);
+                rateDriver();
             }
         });
 
@@ -243,7 +242,6 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
                             infoDriver.setText(name+"-"+vehicle_no+"\n"+phone_no);
 
                             //mergeBookVehicleReturn();
-                            rateDriver();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -279,18 +277,8 @@ public class MatchDriver extends FragmentActivity implements OnMapReadyCallback,
     }
 
     private void rateDriver() {
-        CountDownTimer countDownTimer = new CountDownTimer(8000, 8000) {
-            @Override
-            public void onTick(long l) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                Intent intent = new Intent(getApplicationContext(), RatingActivity.class);
-                startActivity(intent);
-            }
-        }.start();
+        Intent intent = new Intent(getApplicationContext(), RatingActivity.class);
+        startActivity(intent);
     }
 
     private void mergeBookVehicleReturn(){
